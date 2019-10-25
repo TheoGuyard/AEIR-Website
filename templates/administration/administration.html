@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+<div class="row align-content-ri">
+    <div class="col-md-3 offset-sm-7 offset-md-9">
+        <a href="{% url 'logout' %}" class="btn btn-primary form-control">Déconnexion</a>
+    </div>
+</div>
+<hr>
+<div>
+    <h3>Gestion des adhésions</h3>
+    <a href="{% url 'adherent_list' %}">Liste des adhérents</a>
+    </br>
+    <a href="">Gestion des adhésions</a>
+    </br>
+    <a href="{% url 'adherent_search' %}">Rechercher un amicalistes</a>
+    <hr>
+
+    <h3>Gestion du contenu</h3>
+    <a href="{% url 'news_list' %}">Page des actualiés</a>
+    </br>
+    <a href="{% url 'team_list' %}">Page du bureau</a>
+    </br>
+    <a href="{% url 'club_list' %}">Page des clubs</a>
+    </br>
+    <a href="{% url 'partner_list' %}">Page des partenariats</a>
+    </br>
+    <a href="{% url 'event_list' %}">Page des événements</a>
+    <hr>
+
+    <h3>Gestion des événements</h3>
+    <a href="">Liste des évènements</a>
+    </br>
+    <a href="">Gestion des préventes</a>
+    <hr>
+
+    <h3>Changement d'année</h3>
+    <a href="">Anciens adhérents AEIR</a>
+    <br>
+    <a href="">Importer des adhesions</a>
+    <br>
+    <a href="" style="color:red">Passer à l'année suivante</a>
+</div>
+
+{% endblock %}

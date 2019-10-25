@@ -1,0 +1,123 @@
+/* FONTS */
+
+@font-face {
+  font-family: "DIN-pro-bold";
+  src: url("../fonts/din/DINPro-Bold.otf") format("opentype"),
+    local("DIN-pro-bold");
+}
+
+@font-face {
+  font-family: "DIN-pro";
+  src: url("../fonts/din/DINPro.otf") format("opentype"), local("DIN-pro");
+}
+
+@font-face {
+  font-family: "DIN-pro-medium";
+  src: url("../fonts/din/DINPro-Medium.otf") format("opentype"),
+    local("DIN-pro-medium");
+}
+
+html {
+  font-family: "DIN-pro";
+}
+
+h1, h2 {
+  font-family: "DIN-pro-bold";
+}
+
+h3, h4 {
+  font-family: "Din-pro-medium";
+}
+
+/* Navbar */
+
+.bg-dark-transparent {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.navbar-logo {
+  width: 12rem;
+  height: auto;
+}
+
+.navbar-bg {
+  background-image: url('../img/navbar-background.png');
+  background-position: bottom;
+  background-size: cover;
+}
+
+video#bgvid {
+  position: fixed; top:0; left: 0;
+  width: 100%;
+  height: auto;
+}
+
+/* Frontpage */
+
+#videoDiv {width: 100%; height: auto; position: relative;}
+#videoBlock {width: 100%; height: auto;  display: flex;  justify-content: center; align-items: center;}
+#video {width: 100%; height: auto;}
+
+.arrow{
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.arrow span{
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+    transform: rotate(45deg);
+    margin: 0px;
+    animation: animate 2s infinite;
+}
+.arrow span:nth-child(2){
+    animation-delay: -0.2s;
+}
+.arrow span:nth-child(3){
+    animation-delay: -0.4s;
+}
+@keyframes animate {
+    0%{
+        opacity: 0;
+        transform: rotate(45deg) translate(-15px,-15px);
+    }
+    50%{
+        opacity: 1;
+        transform: rotate(45deg) translate(-10px,-10px)
+    }
+    100%{
+        opacity: 0;
+        transform: rotate(45deg) translate(-5px,-5px);
+    }
+}
+
+/* Social network section */
+
+.social-box .box{
+  background: #FFF;
+  border-radius: 10px; 
+  padding: 40px 10px;
+  margin: 20px 0px;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+
+.social-box .box:hover{
+ box-shadow: 0 0 6px #212529;
+}
+
+.social-box .box .box-text{
+  margin:20px 0px;
+  font-size: 15px;
+  line-height: 30px;
+}
+
+.social-box .box .box-btn a{
+  text-decoration: none;
+  color: #212529;
+  font-size: 16px;
+}

@@ -1,0 +1,106 @@
+import random
+import string
+import datetime
+import os
+from django.db import models
+from django.utils.timezone import now
+from .card import generate_card
+
+# Create your models here.
+
+def random_id():
+    return "".join(
+        [random.choice(string.ascii_letters + string.digits) for n in range(8)]
+    )
+
+
+ADHESION_TYPE = (
+    ("Adhésion AEIR", "Adhésion AEIR"),
+    ("Adhésion Foyer", "Adhésion Foyer"),
+)
+
+SCHOOL_YEAR = (
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+    ('Autre', 'Autre'),
+)
+
+DEPARTEMENT = (
+    ('STPI', 'STPI'),
+    ('GM', 'GM'),
+    ('INFO', 'INFO'),
+    ('SRC', 'SRC'),
+    ('EII', 'EII'),
+    ('GMA', 'GMA'),
+    ('SGM', 'SGM'),
+    ('GCU', 'GCU'),
+    ('CDTI', 'CDTI'),
+    ('Autre', 'Autre'),
+)
+
+class Adhesion(models.Model):
+
+    # Personal infos
+    adhesion_type = models.CharField(max_length=15, choices=ADHESION_TYPE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    birthday = models.DateField(default=datetime.date.today)
+    email = models.EmailField()
+    picture = models.ImageField(upload_to="adhesion_AEIR")
+
+    # Schooling infos
+    insa_student = models.BooleanField()
+    school_year = models.CharField(max_length=200, choices=SCHOOL_YEAR)
+    departement = models.CharField(max_length=200, choices=DEPARTEMENT)
+    
+    # Administration infos
+    adhesion_date = models.DateField(auto_now_add=True)
+    card_id = models.CharField(max_length=8, default=random_id)
+    card_pwd = models.CharField(max_length=8, default=random_id)
+    paid = models.BooleanField(default=False)
+
+    # School year of an adhesion (which goes from august 1st to july 31st)
+    @property
+    def year(self):
+        if self.adhesion_date.month <= 7:
+            return str(self.adhesion_date.year-1) + " - " + str(self.adhesion_date.year)
+        else:
+            return str(self.adhesion_date.year) + " - " + str(self.adhesion_date.year+1)
+
+    @property
+    def card(self):
+        return generate_card(self)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
+class ArchivedAdhesion(models.Model):
+
+    # Personal infos
+    adhesion_type = models.CharField(max_length=15, choices=ADHESION_TYPE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.EmailField()
+
+    # Schooling infos
+    insa_student = models.BooleanField()
+    school_year = models.CharField(max_length=200, choices=SCHOOL_YEAR)
+    departement = models.CharField(max_length=200, choices=DEPARTEMENT)
+    
+    # Administration infos
+    adhesion_date = models.DateField(auto_now_add=True)
+
+    # School year of an adhesion (which goes from august 1st to july 31st)
+    @property
+    def year(self):
+        if self.adhesion_date.month <= 7:
+            return str(self.adhesion_date.year-1) + " - " + str(self.adhesion_date.year)
+        else:
+            return str(self.adhesion_date.year) + " - " + str(self.adhesion_date.year+1)
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+    
