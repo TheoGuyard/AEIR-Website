@@ -61,6 +61,7 @@ class Adhesion(models.Model):
     card_id = models.CharField(max_length=8, default=random_id)
     card_pwd = models.CharField(max_length=8, default=random_id)
     paid = models.BooleanField(default=False)
+    valid_infos = models.BooleanField(default=True)
 
     # School year of an adhesion (which goes from august 1st to july 31st)
     @property

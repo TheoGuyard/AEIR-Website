@@ -136,6 +136,49 @@ class AdministrationAdherentDeleteView(UserPassesTestMixin, LoginRequiredMixin, 
     def handle_no_permission(self):
         return redirect('permission_denied')
 
+class AdministrationNewAdherentListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
+    login_url = 'administration_login'
+    template_name = 'administration/new_adherent_list.html'
+    model = Adhesion
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Administration'
+        context['page_subtitle'] = 'Gestion des nouvelles adhérents'
+        return context
+
+    def get_queryset(self):
+        return Adhesion.objects.filter(adhesion_type="Adhésion AEIR", paid=False).order_by('first_name')
+    
+    def test_func(self):
+        return self.request.user.groups.filter(name="Adhesion AEIR management").exists()
+
+    def handle_no_permission(self):
+        return redirect('permission_denied')
+
+class AdministrationNewAdherentDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
+    login_url = 'administration_login'
+    template_name = 'administration/new_adherent_detail.html'
+    model = Adhesion
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Administration'
+        context['page_subtitle'] = 'Détail d\'un nouvel adhérent'
+        return context
+    
+    def test_func(self):
+        return self.request.user.groups.filter(name="Adhesion AEIR management").exists()
+
+    def handle_no_permission(self):
+        return redirect('permission_denied')
+
+    def post(self, request, pk):
+        form = request.POST
+        print(form)
+        
+
 class AdministrationAdherentSearchView(UserPassesTestMixin, LoginRequiredMixin, TemplateView):
     login_url = 'administration_login'
     template_name = 'administration/adherent_search.html'

@@ -11,5 +11,9 @@ urlpatterns = [
     path('adhesion', views.AdhesionView.as_view(), name='adhesion'),
     path('adhesion_form', views.AdhesionFormView.as_view(), name='adhesion_form'),
     path('adhesion_success', views.AdhesionSuccessView.as_view(), name='adhesion_success'),
+    path('adhesion_get_card', views.AdhesionGetCardView.as_view(), name='adhesion_get_card'),
+    path('adhesion_not_found', views.AdhesionNotFoundView.as_view(), name='adhesion_not_found'),
+    path('adhesion_need_modifications/<int:id>', views.AdhesionNeedModificationView.as_view(), name='adhesion_need_modification'),
+    path('adhesion_not_paid', views.AdhesionNotPaidView.as_view(), name='adhesion_not_paid'),
 ]
 

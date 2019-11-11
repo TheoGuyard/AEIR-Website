@@ -15,6 +15,8 @@ urlpatterns = [
     path('adherent_list', views.AdministrationAdherentListView.as_view(), name='adherent_list'),
     path('adherent_update/<int:id>', views.AdministrationAdherentUpdateView.as_view(), name='adherent_update'),
     path('adherent_delete/<int:id>', views.AdministrationAdherentDeleteView.as_view(), name='adherent_delete'),
+    path('new_adherent_list', views.AdministrationNewAdherentListView.as_view(), name='new_adherent_list'),
+    path('new_adherent_detail/<int:pk>', views.AdministrationNewAdherentDetailView.as_view(), name='new_adherent_detail'),
     path('adherent_search', views.AdministrationAdherentSearchView.as_view(), name='adherent_search'),
 
     ### Content ###
