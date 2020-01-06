@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}AEIR - Adhésion{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    {{ global_parameters.adhesion_description|safe }}
+    <hr>
+    <div class="row">
+        <div class="col-md-4 m-auto">
+            <a href="{% url 'adhesion_form' %}" class="btn btn-primary form-control">Remplir le formulaire d'adhésion</a>
+        </div>
+        <div class="col-md-4 m-auto">
+            <a href="{% url 'adhesion_get_card' %}" class="btn btn-primary form-control">Récupérer ma carte Amicaliste</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

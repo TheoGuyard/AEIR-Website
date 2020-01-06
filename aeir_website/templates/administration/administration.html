@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3 offset-sm-7 offset-md-9">
+        <a href="{% url 'logout' %}" class="btn btn-primary form-control">Déconnexion</a>
+    </div>
+</div>
+<hr>
+<div>
+    <h3>Gestion des adhésions</h3>
+    <a href="{% url 'adherent_list' %}">Liste des amicalistes</a>
+    </br>
+    <a href="{% url 'new_adherent_list' %}">Gestion des nouvelles adhésions</a>
+    </br>
+    <a href="{% url 'adherent_search' %}">Rechercher un amicalistes</a>
+    <hr>
+
+    <h3>Gestion du contenu</h3>
+    <a href="{% url 'global_parameters_update' %}">Paramètres du site</a>
+    </br>
+    <a href="{% url 'news_list' %}">Page des actualiés</a>
+    </br>
+    <a href="{% url 'team_list' %}">Page du bureau</a>
+    </br>
+    <a href="{% url 'partner_list' %}">Page des partenariats</a>
+    </br>
+    <a href="{% url 'event_list' %}">Page des événements</a>
+    <hr>
+
+    <h3>Gestion des clubs</h3>
+    <a href="{% url 'club_list' %}">Page des clubs</a>
+    </br>
+    <a href="{% url 'event_management_list' %}">Liste des évènements</a>
+    <hr>
+
+    <h3>Changement d'année</h3>
+    <a href="{% url 'archived_adherent_search' %}">Anciens adhérents AEIR</a>
+    <br>
+    <a href="{% url 'import_adhesion' %}">Importer des adhesions</a>
+    <br>
+    <a href="{% url 'change_year' %}" style="color:red">Passer à l'année suivante</a>
+</div>
+
+{% endblock %}

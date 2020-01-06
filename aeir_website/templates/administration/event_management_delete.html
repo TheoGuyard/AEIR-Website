@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+<hr>
+
+<div class="row">
+    <div class="col-6 m-auto">
+        <form method="post">
+            {% csrf_token %}
+            <p>Êtes vous sûr de supprimer l'événement : {{ object }} ?</p>
+            <button class="btn btn-primary" type='submit'>Confirmer</button>
+        </form>
+    </div>
+</div>
+
+<hr>
+
+<div class="min-vh-100">
+
+</div>
+
+{% endblock %}

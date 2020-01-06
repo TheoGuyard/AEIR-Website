@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}AEIR - Accueil{% endblock %}</title>
+
+    <!-- Bootstrap core -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+    <!-- Font Awsome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Scrolling-nav template -->
+    <link href="{% static 'css/scrolling-nav.css' %}" rel="stylesheet">
+    <script src="{% static 'js/scrolling-nav.js' %}"></script>
+    <!-- Personal styles for this template -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-transparent fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger"  href="{% url 'frontpage' %}">
+                <img class="navbar-logo" src="{% static 'img/white_wide_logo.png' %}">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'frontpage' %}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'news' %}">Actualités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'team' %}">Bureau</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'clubs' %}">Clubs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'events' %}">Événements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'partners' %}">Partenariats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'adhesion' %}">Adhésion</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="{% url 'administration' %}">Administration</a>
+                        </li>
+                    {% endif %}
+                </ul>
+          </div>
+        </div>
+    </nav>
+
+    <!-- Video -->
+
+    <div id="videoDiv"> 
+        <div id="videoBlock">   
+          <video preload="preload"  id="video" autoplay="autoplay" loop="loop">
+            <source src="{{ global_parameters.frontpage_video.url }}" type="video/mp4"></source>
+          </video> 
+          <div class="arrow">
+              <a href="#INSA">
+                <span></span>
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <section id="INSA">
+        <div class="col-md-12 text-center">
+            {{ global_parameters.insa_description|safe }}
+        </div>
+    </section>
+            
+    <div class="parallax-insa"></div> 
+
+    <section id="AEIR">
+        <div class="col-md-12 text-center">
+            {{ global_parameters.aeir_description|safe }}
+        </div>
+    </section>
+
+    <div class="parallax-aeir"></div>
+
+    <section id="contact">
+        <div class="col-md-12 text-center">
+            <h1>Contact</h1>
+        </div>
+        <div class="social-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <i class="fas fa-envelope fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Par courrier</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>AEIR, 20 avenue des buttes de Coësmes</span>
+                                <br>
+                                <span>CS 70839, 35708 Rennes Cédex 7</span>
+                            </div>
+                        </div>
+                    </div>	 
+                    
+                    <div class="col-lg-4 col-xs-12  text-center">
+                        <div class="box">
+                            <i class="fas fa-phone fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Par téléphone</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>Une question ? Notre président est joignable au numéro suivant :</span>
+                                <span><strong>02 23 23 84 12</strong><span>
+                            </div>
+                        </div>
+                    </div>	 
+                    
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <i class="fas fa-at fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Par mail</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>L'équipe de l'AEIR repondra également dans les plus brefs délais sur <a href="mailto:aeir@insa-rennes.fr">aeir@insa-rennes.fr</a> !
+                            </div>
+                        </div>
+                    </div>	 
+                    
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <i class="fab fa-facebook-f fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Facebook</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>Toutes les actualités, les événements et les informations de l'AEIR sont sur Facebook !</span>
+                                <span><a href="https://www.facebook.com/AEIRennes/">facebook.com/AEIRennes/</a></span>
+                            </div>
+                        </div>	
+                    </div> 
+
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <i class="fab fa-instagram fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Instagram</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>Pour voir les photos des derniers événements ainsi que des sotires en direct toute l'année, rendez-vous sur <a href="https://www.instagram.com/aeirennes/">@aeirrennes</a> !
+                            </div>
+                        </div>
+                    </div>	 
+
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <i class="fab fa-snapchat fa-3x" aria-hidden="true"></i>
+                            <div class="box-title">
+                                <h3>Snapchat</h3>
+                            </div>
+                            <div class="box-text">
+                                <span>Pour être au coeur de l'action de n'importe quel événement, vous pouvez nous retrouver sur <a href="">@aeir_rennes</a> !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>		
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-3 bg-dark align-bottom">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright AEIR. Made by Théo Guyard, <a style="color:white" href="{% static 'img/amicalbatros.jpg' %}">Amicale 2019</a>.</p>
+        </div>
+    </footer>
+
+</body>
+
+<style>
+    .parallax-insa {
+        background-image: url("{% static 'img/insa.png' %}");
+        height: 400px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+    .parallax-aeir {
+        background-image: url("{% static 'img/AEIR.png' %}");
+        height: 400px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+</style>
+
+</html>

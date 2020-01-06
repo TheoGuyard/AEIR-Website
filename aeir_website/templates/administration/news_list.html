@@ -1,0 +1,60 @@
+{% extends 'base.html' %} 
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8">
+        <strong>Nombre de news</strong> : {{ object_list|length }}
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'news_create' %}" class="btn btn-primary form-control text-white">Ajouter une news</a>
+    </div>
+</div>
+
+<hr>
+
+<div class="card">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Date</th>
+            <th scope="col">Voir</th>
+            <th scope="col">Modifier</th>
+            <th scope="col">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if object_list %}
+                {% for obj in object_list %}
+                    <tr>
+                    <td>{{ obj.title }}</td>
+                    <td>{{ obj.date }}</td>
+                    <td><a class="btn btn-sm btn-primary" href="{% url 'news_detail' obj.pk %}"><i class="far fa-edit"></i> Voir</a></td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'news_update' obj.pk %}"><i class="far fa-edit"></i> Modifier</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'news_delete' obj.id %}"><i class="fas fa-trash-alt"></i> Supprimer</a></td>
+                    </tr>
+                {% endfor %}
+                {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                    </span>
+                    {% if page_obj.has_next %} -
+                    <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                    {% endif %}
+                    </span>
+                </div>
+                {% endif %} 
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
