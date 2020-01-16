@@ -4,26 +4,33 @@
 
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="username">Identifiant</label>
-            <input type="text" name="username" class="form-control" required="required"/>
+<div class="row mt-3">
+  <div class="col-md-5 m-auto">
+    <div class="card shadow">
+      <h5 class="card-header bg-primary text-white text-center p-4">Connexion au panneau d'administration</h5>
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-10 offset-md-1">
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                  <label for="username">Identifiant</label>
+                  <input type="text" name="username" class="form-control" required="required"/>
+              </div>
+              <div class="form-group">
+                  <label for="password">Mot de passe</label>
+                  <input type="password" name="password" class="form-control" required="required"/>
+              </div>
+              <hr>
+              <div class="form-group">
+                  <button class="btn btn-primary form-control hvr-grow"><span class="glyphicon glyphicon-log-in"></span>Connexion</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" class="form-control" required="required"/>
-        </div>
-        <center><label class="text-danger">{{ msg }}</label></center>
-        <br />
-        <div class="form-group">
-            <button class="btn btn-primary form-control"><span class="glyphicon glyphicon-log-in"></span>Connexion</button>
-        </div>
+      </div>
     </div>
   </div>
-</form>
-
+</div>
 
 {% endblock %}

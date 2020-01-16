@@ -4,10 +4,19 @@
 
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    <p>Êtes vous sûr de supprimer le partenariat : {{ object }} ?</p>
-    <button type='submit'>Confirmer</button>
-</form>
+<div class="row mt-3">
+    <div class="col-md-6 m-auto">
+        <div class="card text-center">
+            <h5 class="card-header bg-primary text-white">Supression d'un partenaire</h5>
+            <div class="card-body">
+                <form method='post'>
+                    {% csrf_token %}
+                    <p>Êtes vous sûr de supprimer le partenaire : {{ object }} ?</p>
+                    <input class="btn btn-primary" type="submit" value="Confirmer">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

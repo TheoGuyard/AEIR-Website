@@ -4,6 +4,21 @@
 
 {% block content %}
 
-<h1>Titre : {{ object.name }}</h1>
+<div class='row'>
+    <div class="card mb-3 w-100 m-auto shadow">
+        <img class="card-img-top img-fluid p-2" src="{{ object.logo.url }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><strong>{{ object.name }}</strong></h5>
+            <p class="card-text">{{ object.description|safe }}</p>
+            <p class="card-text"></p>
+            {% if object.mail %}
+            <div class="card-text"><small class="text-muted">{{ object.mail }}</small></div>
+            {% endif %}
+            {% if object.website %}
+            <div class="card-text"><small class="text-muted">{{ object.website }}</small></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

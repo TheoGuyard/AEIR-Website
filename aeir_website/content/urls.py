@@ -11,12 +11,22 @@ urlpatterns = [
     ),
     path("team", views.TeamView.as_view(), name="team"),
     path("clubs", views.ClubsView.as_view(), name="clubs"),
-    path("events", views.EventsView.as_view(), name="events"),
+    path("event", views.EventView.as_view(), name="event"),
+    path(
+        "event_content_detail/<int:id>",
+        views.EventContentDetailView.as_view(),
+        name="event_content_detail",
+    ),
     path("partners", views.PartnersView.as_view(), name="partners"),
+    path(
+        "partner_content_detail/<int:id>",
+        views.PartnerContentDetailView.as_view(),
+        name="partner_content_detail",
+    ),
     path("adhesion", views.AdhesionView.as_view(), name="adhesion"),
     path("adhesion_form", views.AdhesionFormView.as_view(), name="adhesion_form"),
     path(
-        "adhesion_success", views.AdhesionSuccessView.as_view(), name="adhesion_success"
+        "adhesion_success", views.AdhesionSuccessView.as_view(), name="adhesion_success", kwargs={"adhesion":"adhesion"}
     ),
     path(
         "adhesion_get_card",

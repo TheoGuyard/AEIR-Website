@@ -4,61 +4,75 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8">
-        <strong>Nombre de demandes d'adhésion</strong> : {{ object_list|length }}
+<div class="card shadow">
+    <h5 class="card-header bg-primary text-white text-center">Gestion des nouvelles adhésions</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 float-left">
+                <div class="btn btn-info"><i class="fas fa-list"></i> Nombre de demandes d'adhésion : {{ number }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="card shadow-sm">
+                    <form method="post">
+                        {% csrf_token %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Mail</th>
+                                <th scope="col">Status</th>
+                                <th class="text-center" scope="col">Gestion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if object_list %}
+                                    {% for obj in object_list %}
+                                        <tr>
+                                        <td>{{ obj.first_name }}</td>
+                                        <td>{{ obj.last_name }}</td>
+                                        <td>{{ obj.email }}</td>
+                                        {% if obj.valid_infos %}
+                                            <td><button class="btn btn-sm btn-success">En cours de traitement</button></td>
+                                        {% else %}
+                                            <td><button class="btn btn-sm btn-warning">Demande de modification</button></td>
+                                        {% endif %}
+                                        <td class="text-center"><a class="btn btn-sm btn-danger" name="card" href="{% url 'new_adherent_detail' obj.pk %}"><i class="fa fa-address-card"></i> Gérer</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<hr>
-
-<div class="card">
-    <form method="post">
-        {% csrf_token %}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Mail</th>
-                <th scope="col">Status</th>
-                <th scope="col">Gestion</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if object_list %}
-                    {% for obj in object_list %}
-                        <tr>
-                        <td>{{ obj.first_name }}</td>
-                        <td>{{ obj.last_name }}</td>
-                        <td>{{ obj.email }}</td>
-                        {% if obj.valid_infos %}
-                            <td><font color="green">En cours de traitement</font></td>
-                        {% else %}
-                            <td><font color="red">Demande de modification</font></td>
-                        {% endif %}
-                        <td><a class="btn btn-sm btn-primary" name="card" href="{% url 'new_adherent_detail' obj.pk %}"><i class="fa fa-address-card"></i> Gérer</a></td>
-                        </tr>
-                    {% endfor %}
-                    {% if is_paginated %}
-                    <div class="pagination">
-                        <span class="page-links">
-                        {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
-                        {% endif %}
-                        <span class="page-current">
-                            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-                        </span>
-                        {% if page_obj.has_next %} -
-                        <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
-                        {% endif %}
-                        </span>
-                    </div>
-                    {% endif %} 
-                {% endif %}
-            </tbody>
-        </table>
-    </form>
+    {% if is_paginated %}
+        <div class="row">
+            <div class="col-md-4 offset-4">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            {% if page_obj.has_previous %}
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précedent</a>
+                            {% endif %}
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-blue">Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</a>
+                        </li>
+                        <li class="page-item">
+                            {% if page_obj.has_next %}
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% endif %} 
 </div>
 
 {% endblock %}

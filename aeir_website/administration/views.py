@@ -11,7 +11,7 @@ from adhesion.models import Adhesion, ArchivedAdhesion
 from adhesion.forms import AdhesionForm
 from content.models import *
 from content.forms import *
-from .csv_extract import list_to_csv
+from .csv_extract import list_to_csv, list_to_csv_event
 from .forms import AdhesionFilter, EventManagementForm, ArchivedAdhesionFilter
 from .models import *
 from zipfile import ZipFile
@@ -61,11 +61,7 @@ class AdministrationView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
         context["page_subtitle"] = (
-            "Bienvenue "
-            + str(self.request.user.first_name)
-            + " "
-            + str(self.request.user.last_name)
-            + " !"
+            "Bienvenue dans le panneau d'administration !"
         )
         return context
 
@@ -92,7 +88,8 @@ class AdministrationAdherentListView(UserPassesTestMixin, LoginRequiredMixin, Li
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Liste des adhérents"
+        context["page_subtitle"] = "Gestion des adhésions"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -126,7 +123,7 @@ class AdministrationAdherentUpdateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'un adhérent"
+        context["page_subtitle"] = "Gestion des adhésions"
         return context
 
     def get_success_url(self):
@@ -153,7 +150,7 @@ class AdministrationAdherentDeleteView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un adhérent"
+        context["page_subtitle"] = "Gestion des adhésions"
         return context
 
     def get_object(self, queryset=None):
@@ -176,12 +173,13 @@ class AdministrationNewAdherentListView(
     login_url = "administration_login"
     template_name = "administration/new_adherent_list.html"
     model = Adhesion
-    paginate_by = 50
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Gestion des nouvelles adhérents"
+        context["page_subtitle"] = "Gestion des adhésions"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -193,6 +191,14 @@ class AdministrationNewAdherentListView(
     def handle_no_permission(self):
         return redirect("permission_denied")
 
+    def post(self, request):
+        form = request.POST
+        print(form)
+        if "card" in form:
+            user = Adhesion.objects.get(id=int(form["card"]))
+            return user.card
+        return HttpResponseRedirect("")
+
 
 class AdministrationNewAdherentDetailView(
     UserPassesTestMixin, LoginRequiredMixin, DetailView
@@ -200,12 +206,6 @@ class AdministrationNewAdherentDetailView(
     login_url = "administration_login"
     template_name = "administration/new_adherent_detail.html"
     model = Adhesion
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un nouvel adhérent"
-        return context
 
     def test_func(self):
         return self.request.user.groups.filter(name="Adhesion AEIR management").exists()
@@ -215,11 +215,11 @@ class AdministrationNewAdherentDetailView(
 
     def post(self, request, pk):
         form = request.POST
-        adherent = Adhesion.objects.get(pk=pk)
-        if form["choice"] == "need_modification":
+        adherent = Adhesion.objects.get(pk=self.kwargs["pk"])
+        if "need_modification" in form.keys():
             adherent.valid_infos = False
             adherent.save()
-        elif form["choice"] == "validate":
+        elif "validate" in form.keys():
             adherent.valid_infos = True
             adherent.paid = True
             adherent.save()
@@ -238,7 +238,7 @@ class AdministrationAdherentSearchView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Rechercher un amicaliste"
+        context["page_subtitle"] = "Gestion des adhésions"
         context["filter"] = AdhesionFilter(
             self.request.GET, queryset=Adhesion.objects.filter(paid=True)
         )
@@ -249,6 +249,14 @@ class AdministrationAdherentSearchView(
 
     def handle_no_permission(self):
         return redirect("administration_no_permission")
+
+    def post(self, request):
+
+        form = request.POST or None
+        if "card" in form:
+            user = Adhesion.objects.get(id=int(form["card"]))
+            return user.card
+        return HttpResponseRedirect("")
 
 
 ### Content ###
@@ -267,7 +275,7 @@ class AdministrationGlobalParametersUpdateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Gestion des praramètres du site"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_object(self):
@@ -295,7 +303,8 @@ class AdministrationNewsListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Page des actualités"
+        context["page_subtitle"] = "Gestion du contenu"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -316,7 +325,7 @@ class AdministrationNewsDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'une actualité"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -336,7 +345,7 @@ class AdministrationNewsCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'une actualité"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -355,7 +364,7 @@ class AdministrationNewsUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'une actualité"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -376,7 +385,7 @@ class AdministrationNewsDeleteView(UserPassesTestMixin, LoginRequiredMixin, Dele
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'une news"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_object(self, queryset=None):
@@ -405,7 +414,8 @@ class AdministrationTeamListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Membres de l'AEIR"
+        context["page_subtitle"] = "Gestion du contenu"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -426,7 +436,7 @@ class AdministrationTeamDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un membre du bureau"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -446,7 +456,7 @@ class AdministrationTeamCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'un membre du bureau"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -465,7 +475,7 @@ class AdministrationTeamUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'un membre du bureau"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -486,7 +496,7 @@ class AdministrationTeamDeleteView(UserPassesTestMixin, LoginRequiredMixin, Dele
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un membre du bureau"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_object(self, queryset=None):
@@ -515,7 +525,8 @@ class AdministrationEventListView(UserPassesTestMixin, LoginRequiredMixin, ListV
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Page des événements"
+        context["page_subtitle"] = "Gestion du contenu"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -538,7 +549,7 @@ class AdministrationEventDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un événement"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -560,7 +571,7 @@ class AdministrationEventCreateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'un événement"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -581,7 +592,7 @@ class AdministrationEventUpdateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'un événement"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -604,7 +615,7 @@ class AdministrationEventDeleteView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un événement"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_object(self, queryset=None):
@@ -634,7 +645,8 @@ class AdministrationPartnerListView(UserPassesTestMixin, LoginRequiredMixin, Lis
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Page des partenariats"
+        context["page_subtitle"] = "Gestion du contenu"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -657,7 +669,7 @@ class AdministrationPartnerDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un partenariat"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -679,7 +691,7 @@ class AdministrationPartnerCreateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'un partenariat"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def test_func(self):
@@ -700,7 +712,7 @@ class AdministrationPartnerUpdateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'un partenariat"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -723,7 +735,7 @@ class AdministrationPartnerDeleteView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un partenrariat"
+        context["page_subtitle"] = "Gestion du contenu"
         return context
 
     def get_object(self, queryset=None):
@@ -753,7 +765,8 @@ class AdministrationClubListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Page des clubs"
+        context["page_subtitle"] = "Gestion des clubs"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -777,7 +790,7 @@ class AdministrationClubDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un club"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def test_func(self):
@@ -800,7 +813,7 @@ class AdministrationClubCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'un club"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def test_func(self):
@@ -822,7 +835,7 @@ class AdministrationClubUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Modification d'un club"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -846,7 +859,7 @@ class AdministrationClubDeleteView(UserPassesTestMixin, LoginRequiredMixin, Dele
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un club"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def get_object(self, queryset=None):
@@ -881,7 +894,8 @@ class AdministrationEventManagementListView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Gestion des événements"
+        context["page_subtitle"] = "Gestion des clubs"
+        context["number"] = len(self.get_queryset())
         return context
 
     def get_queryset(self):
@@ -906,27 +920,7 @@ class AdministrationEventManagementCreateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Création d'un événement"
-        return context
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="Club management").exists()
-
-    def handle_no_permission(self):
-        return redirect("permission_denied")
-
-
-class AdministrationEventManagementDetailView(
-    UserPassesTestMixin, LoginRequiredMixin, DetailView
-):
-    login_url = "administration_login"
-    template_name = "administration/event_management_detail.html"
-    model = EventManagement
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["page_title"] = "Administration"
-        context["page_subtitle"] = "Détail d'un événement"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def test_func(self):
@@ -947,7 +941,7 @@ class AdministrationEventManagementParticipantsView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Gestion des événements"
+        context["page_subtitle"] = "Gestion des clubs"
         context["event"] = EventManagement.objects.get(pk=self.kwargs["pk"])
         context["participants"] = (
             context["event"].participants.all().order_by("last_name")
@@ -970,8 +964,13 @@ class AdministrationEventManagementParticipantsView(
                 event.participants.remove(Adhesion.objects.get(id=int(user_id)))
                 event.save()
             if button.startswith("delete_non_adherent"):
-                event.participants_non_adherents -= 1
+                if event.participants_non_adherents > 0:
+                    event.participants_non_adherents -= 1
+                else:
+                    event.participants_non_adherents = 0
                 event.save()
+            if button.startswith("csv_extract"):
+                return list_to_csv_event(event.participants.all())
 
         return HttpResponseRedirect("")
 
@@ -986,7 +985,7 @@ class AdministrationEventManagementPreventeView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Gestion des préventes"
+        context["page_subtitle"] = "Gestion des clubs"
         event = EventManagement.objects.get(pk=self.kwargs["pk"])
         participants = event.participants.all()
         context["filter"] = AdhesionFilter(
@@ -1027,7 +1026,7 @@ class AdministrationEventManagementDeleteView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Suppression d'un événement"
+        context["page_subtitle"] = "Gestion des clubs"
         return context
 
     def get_object(self, queryset=None):
@@ -1057,7 +1056,7 @@ class AdministrationArchivedAdhesionSearchView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Rechercher un ancien amicaliste"
+        context["page_subtitle"] = "Changement d'année"
         context["filter"] = ArchivedAdhesionFilter(
             self.request.GET, queryset=ArchivedAdhesion.objects.filter()
         )
@@ -1079,7 +1078,7 @@ class AdministrationChangeYearView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Passer à l'année suivante"
+        context["page_subtitle"] = "Changement d'année"
         context["filter"] = ArchivedAdhesionFilter(
             self.request.GET, queryset=ArchivedAdhesion.objects.filter()
         )
@@ -1124,7 +1123,7 @@ class AdministrationImportAdhesionView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Administration"
-        context["page_subtitle"] = "Importer des adhésions"
+        context["page_subtitle"] = "Changement d'année"
         return context
 
     def test_func(self):
@@ -1155,11 +1154,6 @@ class AdministrationImportAdhesionView(
             for div in divs:
                 if div.p:
                     paras = div.find_all("p")
-                    picture = div.find("img", {"class": "photo"})
-                    picture_path = (
-                        "media/import_adhesion/Cartes/Impression de cartes_fichiers"
-                        + picture["src"][33:]
-                    )
 
                     if len(paras) == 5:
                         first_name = paras[0].text

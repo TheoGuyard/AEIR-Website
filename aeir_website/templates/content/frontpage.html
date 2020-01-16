@@ -23,6 +23,8 @@
     <script src="{% static 'js/scrolling-nav.js' %}"></script>
     <!-- Personal styles for this template -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="{% static 'css/hover-min.css' %}">
 
 </head>
 
@@ -33,7 +35,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-transparent fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger"  href="{% url 'frontpage' %}">
-                <img class="navbar-logo" src="{% static 'img/white_wide_logo.png' %}">
+                <img class="navbar-logo hvr-grow" src="{% static 'img/white_wide_logo.png' %}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,29 +43,29 @@
           <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'frontpage' %}">Accueil</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'frontpage' %}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'news' %}">Actualités</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'news' %}">Actualités</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'team' %}">Bureau</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'team' %}">Bureau</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'clubs' %}">Clubs</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'clubs' %}">Clubs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'events' %}">Événements</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'event' %}">Événements</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'partners' %}">Partenariats</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'partners' %}">Partenariats</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'adhesion' %}">Adhésion</a>
+                        <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'adhesion' %}">Adhésion</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{% url 'administration' %}">Administration</a>
+                            <a class="nav-link js-scroll-trigger hvr-grow" href="{% url 'administration' %}">Administration</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -73,7 +75,7 @@
 
     <!-- Video -->
 
-    <div id="videoDiv"> 
+    <div id="videoDiv" class="shadow-lg"> 
         <div id="videoBlock">   
           <video preload="preload"  id="video" autoplay="autoplay" loop="loop">
             <source src="{{ global_parameters.frontpage_video.url }}" type="video/mp4"></source>
@@ -90,7 +92,7 @@
     
 
     <section id="INSA">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center hvr-grow">
             {{ global_parameters.insa_description|safe }}
         </div>
     </section>
@@ -98,7 +100,7 @@
     <div class="parallax-insa"></div> 
 
     <section id="AEIR">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center hvr-grow">
             {{ global_parameters.aeir_description|safe }}
         </div>
     </section>
@@ -113,7 +115,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fas fa-envelope fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Par courrier</h3>
@@ -127,7 +129,7 @@
                     </div>	 
                     
                     <div class="col-lg-4 col-xs-12  text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fas fa-phone fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Par téléphone</h3>
@@ -140,7 +142,7 @@
                     </div>	 
                     
                     <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fas fa-at fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Par mail</h3>
@@ -152,7 +154,7 @@
                     </div>	 
                     
                     <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fab fa-facebook-f fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Facebook</h3>
@@ -165,7 +167,7 @@
                     </div> 
 
                     <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fab fa-instagram fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Instagram</h3>
@@ -177,7 +179,7 @@
                     </div>	 
 
                     <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
+                        <div class="box hvr-grow">
                             <i class="fab fa-snapchat fa-3x" aria-hidden="true"></i>
                             <div class="box-title">
                                 <h3>Snapchat</h3>

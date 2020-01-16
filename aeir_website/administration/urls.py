@@ -173,11 +173,6 @@ urlpatterns = [
         name="event_management_create",
     ),
     path(
-        "event_management_detail/<int:pk>",
-        views.AdministrationEventManagementDetailView.as_view(),
-        name="event_management_detail",
-    ),
-    path(
         "event_management_participants/<int:pk>",
         views.AdministrationEventManagementParticipantsView.as_view(),
         name="event_management_participants",

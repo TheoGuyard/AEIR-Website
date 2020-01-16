@@ -2,24 +2,23 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}AEIR - Administration{% endblock %}
+{% block title %}AEIR - Adhésion{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6 col-sm-12">
-    <form method="post" enctype="multipart/form-data" id="formUpload">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <div class="form-check">
-        <input  class="form-check-input" id="accept_conditions" type="checkbox" required="required">
-        <label for="accept_conditions" class="form-check-label">J'accepte les conditions blabla</label>
-      </div>
-      <hr>
-      <div class="row justify-content-center">
-        <input class="btn btn-primary" type="submit" value="Faire ma demande d'adhésion">
-      </div>
-    </form>
-  </div>
+
+<div class="row mt-3">
+    <div class="col-md-8 m-auto">
+        <div class="card shadow">
+            <h5 class="card-header bg-primary text-white text-center p-4">Formulaire d'adhésion</h5>
+            <div class="card-body">
+                <form enctype='multipart/form-data' method='post'>
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {% crispy form %}
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

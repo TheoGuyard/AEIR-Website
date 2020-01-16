@@ -52,7 +52,7 @@ class Adhesion(models.Model):
     )
 
     # Schooling infos
-    insa_student = models.BooleanField()
+    insa_student = models.BooleanField(default=False)
     school_year = models.CharField(max_length=200, choices=SCHOOL_YEAR)
     departement = models.CharField(max_length=200, choices=DEPARTEMENT)
 
@@ -100,6 +100,17 @@ class Adhesion(models.Model):
                 + self.id
             )
 
+    @property
+    def promo(self):
+        if self.departement != "Autre" and self.school_year != "Autre":
+            return self.school_year + " " + self.departement
+        elif self.departement != "Autre":
+            return self.departement
+        elif self.school_year != "Autre":
+            return self.school_year + " " + "A"
+        else:
+            return "Non précisé"
+
     def __str__(self):
         return self.first_name + " " + self.last_name
 
@@ -119,6 +130,10 @@ class ArchivedAdhesion(models.Model):
     # Administration infos
     adhesion_date = models.DateField()
     year = models.IntegerField()
+
+    def attrs(self):
+        for attr, value in self.__dict__.iteritems():
+            yield attr, value
 
     def __str__(self):
         return self.first_name + " " + self.last_name

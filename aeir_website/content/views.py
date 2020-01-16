@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, UpdateView
 from adhesion.models import Adhesion
 from adhesion.forms import AdhesionForm
-from .models import News, TeamMember, GlobalWebsiteParameters
+from .models import *
 
 # Create your views here.
 
@@ -66,8 +66,9 @@ class TeamView(ListView):
         return TeamMember.objects.all()
 
 
-class ClubsView(TemplateView):
+class ClubsView(ListView):
     template_name = "content/clubs.html"
+    model = Club
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,8 +77,9 @@ class ClubsView(TemplateView):
         return context
 
 
-class EventsView(TemplateView):
-    template_name = "content/events.html"
+class EventView(ListView):
+    template_name = "content/event.html"
+    model = Event
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -86,8 +88,25 @@ class EventsView(TemplateView):
         return context
 
 
-class PartnersView(TemplateView):
+class EventContentDetailView(DetailView):
+    template_name = "content/event_content_detail.html"
+    model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Actualités"
+        context["page_subtitle"] = "Tous les futurs événements de l'AEIR"
+        return context
+
+    def get_object(self, queryset=None):
+        obj = Event.objects.get(id=self.kwargs["id"])
+        return obj
+
+
+class PartnersView(ListView):
     template_name = "content/partners.html"
+    model = Partner
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,6 +115,23 @@ class PartnersView(TemplateView):
             "page_subtitle"
         ] = "Nos partenaires nous accompagnent tout au long de l'année"
         return context
+
+
+class PartnerContentDetailView(DetailView):
+    template_name = "content/partner_content_detail.html"
+    model = Partner
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Partenariats"
+        context[
+            "page_subtitle"
+        ] = "Nos partenaires nous accompagnent tout au long de l'année"
+        return context
+
+    def get_object(self, queryset=None):
+        obj = Partner.objects.get(id=self.kwargs["id"])
+        return obj
 
 
 class AdhesionView(TemplateView):
@@ -119,12 +155,18 @@ class AdhesionFormView(FormView):
         context["page_subtitle"] = "Pour devenir Amicaliste, c'est par ici !"
         return context
 
-    def get_success_url(self):
-        return redirect("adhesion_success")
-
-    def form_valid(self, form):
-        form.save()
+    def post(self, request):
+        adhesion_form_post = AdhesionForm(request.POST, request.FILES)
+        if adhesion_form_post.is_valid():
+            adhesion_form_post.save()
+            print('valid')
+        else:
+            print('not valid')
         return self.get_success_url()
+    
+    def get_success_url(self):
+        adhesion = Adhesion.objects.order_by('-adhesion_date').first()
+        return redirect('adhesion_success')
 
 
 class AdhesionSuccessView(TemplateView):
@@ -134,6 +176,7 @@ class AdhesionSuccessView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
         context["page_subtitle"] = "Adhésion en cours de traitement"
+        #context["adhesion"] = kwargs['adhesion']
         return context
 
 

@@ -4,6 +4,25 @@
 
 {% block content %}
 
-
+<div class='container'>
+    {% if object_list %}
+        <div class='row'>
+        {% for obj in object_list %}
+            <div class="col-md-3">
+                <a href="#" style="color: inherit">
+                    <div class="card mb-3 shadow hvr-grow">
+                        <div class="pt-3 pl-3 pr-3">
+                            <img class="card-img-top rounded-circle" src="{{ obj.logo.thumbnail.url }}" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ obj }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>         
+        {% endfor %}
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}

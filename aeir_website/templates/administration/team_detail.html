@@ -4,6 +4,19 @@
 
 {% block content %}
 
-<h1>Titre : {{ object.first_name }}</h1>
+<div class="row">
+    <div class="col-md-3 m-auto">
+        <div class="card shadow">
+            <div class="card-body">
+                <img class="card-img-top" src="{{ object.picture.thumbnail.url }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object }}</h5>
+                    <div class="card-text">{{ object.post }}</div>
+                    <div class="card-text"><small class="text-muted">{{ object.mail }}</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

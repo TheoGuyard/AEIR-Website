@@ -30,6 +30,10 @@ h3, h4 {
   font-family: "Din-pro-medium";
 }
 
+.vh-75 {
+  min-height: 75%;
+}
+
 /* Navbar */
 
 .bg-dark-transparent {
@@ -127,7 +131,13 @@ video#bgvid {
 
 .my-custom-scrollbar {
   position: relative;
-  height: 457px;
+  height: 551px;
+  overflow: auto;
+}
+
+.my-custom-scrollbar-preventes {
+  position: relative;
+  height: 501px;
   overflow: auto;
 }
 

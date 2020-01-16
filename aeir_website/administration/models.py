@@ -7,7 +7,7 @@ from adhesion.models import Adhesion
 class EventManagement(models.Model):
     name = models.CharField(max_length=200)
     date = models.DateField()
-    participants = models.ManyToManyField(Adhesion)
+    participants = models.ManyToManyField(Adhesion, default=0, blank=True)
     participants_non_adherents = models.IntegerField(default=0)
     max_capacity = models.IntegerField(default=800, blank=True)
 

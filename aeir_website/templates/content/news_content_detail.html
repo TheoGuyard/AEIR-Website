@@ -4,8 +4,16 @@
 
 {% block content %}
 
-<div class='container'>
-    {{ object.title }}
+<div class='row'>
+    <div class="card mb-3 w-100 shadow">
+        <img class="card-img-top" src="{{ object.picture.url }}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><strong>{{ object.title }}</strong></h5>
+          <p class="card-text">{{ object.content|safe }}</p>
+          <p class="card-text"></p>
+          <p class="card-text"><small class="text-muted">{{ object.date }}</small></p>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

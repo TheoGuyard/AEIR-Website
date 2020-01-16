@@ -26,13 +26,14 @@ POST = (
 
 
 class GlobalWebsiteParameters(models.Model):
-    frontpage_video = models.FileField(upload_to="global_parameters")
+    frontpage_video = models.FileField(upload_to="global_parameters", default=None)
     default_adhesion_picture = StdImageField(
         upload_to="global_parameters",
         validators=[MinSizeValidator(230, 292), MaxSizeValidator(1080, 720)],
         variations={"thumbnail": {"width": 230, "height": 292, "crop": True}},
         default=None,
     )
+    conditions_adhesion = models.FileField(upload_to="global_parameters", default=None)
     insa_description = RichTextField()
     aeir_description = RichTextField()
     adhesion_description = RichTextField()
@@ -54,7 +55,11 @@ class News(models.Model):
 class Club(models.Model):
     name = models.CharField(max_length=200)
     description = RichTextField()
-    logo = StdImageField(upload_to="club", validators=[MinSizeValidator(800, 600)],)
+    logo = StdImageField(
+        upload_to="club",
+        validators=[MinSizeValidator(360, 360)],
+        variations={"thumbnail": {"width": 360, "height": 360, "crop": True}},
+    )
     mail = models.EmailField()
     website = models.CharField(max_length=200, blank=True)
 
@@ -65,9 +70,9 @@ class Club(models.Model):
 class Partner(models.Model):
     name = models.CharField(max_length=200)
     description = RichTextField()
-    logo = StdImageField(upload_to="partner", validators=[MinSizeValidator(800, 600)],)
-    mail = models.EmailField()
-    website = models.CharField(max_length=200)
+    logo = StdImageField(upload_to="partner", validators=[MinSizeValidator(800, 100)],)
+    mail = models.EmailField(blank=True)
+    website = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -87,10 +92,13 @@ class TeamMember(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     picture = StdImageField(
-        upload_to="team_member", validators=[MinSizeValidator(800, 600)],
+        upload_to="team_member",
+        validators=[MinSizeValidator(230, 300)],
+        variations={"thumbnail": {"width": 230, "height": 292, "crop": True}},
+        default=None,
     )
     post = models.CharField(max_length=200, choices=POST)
     mail = models.EmailField()
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.last_name + " " + self.first_name

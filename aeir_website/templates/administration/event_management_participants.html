@@ -4,69 +4,90 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8">
-        <strong>{{ event }}, {{ event.date }}</strong>
-        <br>
-        <strong>Nombre total de participants</strong> : {{ event.total_participants }}
-        <br>
-        <strong>Nombre d'amicaliste participants</strong> : {{ participants|length }}
-        <br>
-        <strong>Nombre de non-amicaliste participants</strong> : {{ event.participants_non_adherents }}
-    </div>
-    <div class='col-md-4 m-auto'>
-        <form method="post">
-            {% csrf_token %}
-            <button class="btn btn-sm btn-info" type="submit" name="delete_non_adherent"><i class="fas fa-trash-alt"></i> Supprimer un non-amicaliste</button>
-        </form>
-    </div>
-</div>
-
-<hr>
-
-<div class="card">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Adresse</th>
-            <th scope="col">Promo</th>
-            <th scope="col">Supprimer</th>
-            </tr>
-        </thead>
-        <tbody>
-            <form method="post">
-                {% csrf_token %}
-            {% if participants %}
-                {% for obj in participants %}
-                    <tr>
-                    <td>{{ obj.last_name }}</td>
-                    <td>{{ obj.first_name }}</td>
-                    <td>{{ obj.email }}</td>
-                    <td>{{ obj.school_year }} {{ obj.departement }}</td>
-                    <td><button class="btn btn-sm btn-danger" type="submit" name="delete_adherent_{{ obj.id }}"><i class="fas fa-trash-alt"></i> Supprimer</button></td>
-                    </tr>
-                {% endfor %}
-                {% if is_paginated %}
-                <div class="pagination">
-                    <span class="page-links">
-                    {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
-                    {% endif %}
-                    <span class="page-current">
-                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-                    </span>
-                    {% if page_obj.has_next %} -
-                    <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
-                    {% endif %}
-                    </span>
+<div class="card shadow">
+    <h5 class="card-header bg-primary text-white text-center">Liste des participants à l'événement {{ event }} le {{ event.date }}</h5>
+    <div class="card-body">
+        <div class="row pb-3">
+            <div class="col-md-3 text-center">
+                <div class="btn btn-sm btn-secondary mb-1"><i class="fas fa-list"></i> Total des participants : {{ event.total_participants }}</div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="btn btn-sm btn-secondary mb-1"><i class="fas fa-list"></i> Amicalistes : {{ participants|length }}</div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="btn btn-sm btn-secondary mb-1"><i class="fas fa-list"></i> Non-Amicalistes : {{ event.participants_non_adherents }}</div>
+            </div>
+            <div class="col-md-3 text-center">
+                {% if event.surcapacity %}
+                <div class="btn btn-sm btn-danger mb-1"><i class="fas fa-times"></i> Capacité maximale atteinte !</div>
+                {% else %}
+                <div class="btn btn-sm btn-success mb-1"><i class="fas fa-check"></i> Pas de surcapacité</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-info mb-1" type="submit" name="csv_extract"><i class="fas fa-file-export"></i> Extraire la liste au format CSV</button>
+                </form>
+            </div>
+            <div class="col-md-3 offset-md-6 text-center">
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger mb-1" type="submit" name="delete_non_adherent"><i class="fas fa-trash-alt"></i> Supprimer un non-Amicaliste</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="card shadow-sm">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Adresse</th>
+                            <th scope="col">Promo</th>
+                            <th scope="col">Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form method="post">
+                                {% csrf_token %}
+                            {% if participants %}
+                                {% for obj in participants %}
+                                    <tr>
+                                    <td>{{ obj.last_name }}</td>
+                                    <td>{{ obj.first_name }}</td>
+                                    <td>{{ obj.email }}</td>
+                                    <td>{{ obj.school_year }} {{ obj.departement }}</td>
+                                    <td><button class="btn btn-sm btn-danger" type="submit" name="delete_adherent_{{ obj.id }}"><i class="fas fa-trash-alt"></i> Supprimer</button></td>
+                                    </tr>
+                                {% endfor %}
+                                {% if is_paginated %}
+                                <div class="pagination">
+                                    <span class="page-links">
+                                    {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
+                                    {% endif %}
+                                    <span class="page-current">
+                                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                                    </span>
+                                    {% if page_obj.has_next %} -
+                                    <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                                    {% endif %}
+                                    </span>
+                                </div>
+                                {% endif %} 
+                            {% endif %}
+                            </form>
+                        </tbody>
+                    </table>
                 </div>
-                {% endif %} 
-            {% endif %}
-            </form>
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

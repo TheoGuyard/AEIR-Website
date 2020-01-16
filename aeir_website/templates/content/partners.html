@@ -1,9 +1,46 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
 {% block title %}AEIR - Partenariats{% endblock %}
 
 {% block content %}
 
-
+<div class='container'>
+    {% if object_list %}
+        {% for obj in object_list %}
+                <div class='row'>
+                    <div class="card mb-3 w-100 shadow hvr-grow">
+                        <img class="card-img-top img-fluid" src="{{ obj.logo.url }}" alt="Card image cap">
+                        <div class="card-body">
+                          <h5 class="card-title"><strong>{{ obj.name }}</strong></h5>
+                          <p class="card-text">{{ obj.description|safe|slice:255 }} ... <a href="{% url 'partner_content_detail' obj.id %}">Lire la suite !</a></p>
+                          <p class="card-text"></p>
+                          {% if obj.mail %}
+                          <div class="card-text"><small class="text-muted">{{ obj.mail }}</small></div>
+                          {% endif %}
+                          {% if obj.website %}
+                          <div class="card-text"><small class="text-muted">{{ obj.website }}</small></div>
+                          {% endif %}
+                        </div>
+                    </div>
+                </div>
+                </br>
+        {% endfor %}
+        {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
+            {% endif %}
+            <span class="page-current">
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+            </span>
+            {% if page_obj.has_next %} -
+            <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+            {% endif %}
+            </span>
+        </div>
+        {% endif %} 
+    {% endif %}
+</div>
 
 {% endblock %}

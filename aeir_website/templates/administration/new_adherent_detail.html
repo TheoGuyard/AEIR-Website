@@ -4,13 +4,78 @@
 
 {% block content %}
 
-<h1>Adhesion : {{ object }}</h1>
-
-<form method="post">
-    {% csrf_token %}
-    <input type="radio" name="choice" value="need_modification" checked> Demander une modification des informations<br>
-    <input type="radio" name="choice" value="validate"> Valider les informations et le paiement<br>
-    <input type="submit" value="Submit">
-</form>
+<div class="card shadow">
+    <h5 class="card-header bg-primary text-white text-center">Validation d'une nouvelle adhésion</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ object.picture.thumbnail.url }}" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <h5 class="card-header bg-info text-white">Informations</h5>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td scope="row">Nom</td>
+                                <td>{{ object.first_name }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Prénom</td>
+                                <td>{{ object.last_name }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Date de naissance</td>
+                                <td>{{ object.birthday }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Mail</td>
+                                <td>{{ object.email }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Étudiant INSA</td>
+                                {% if object.etudiant_insa %}
+                                    <td>Oui</td>
+                                {% else %}
+                                    <td>Non</td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <td scope="row">Année d'étude</td>
+                                <td>{{ object.school_year }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Département</td>
+                                <td>{{ object.departement }}</td>
+                              </tr>
+                              <tr>
+                                <td scope="row">Date d'adhésion</td>
+                                <td>{{ object.adhesion_date }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="mb-4 text-center">
+        <form method="post" class="col-12">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <input class="btn btn-danger" type="submit" name="need_modification" value="Demander une modification des informations">
+                </div>
+                <div class="col-md-6">
+                    <input class="btn btn-success" type="submit" name="validate" value="Valider les informations et le paiement">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
