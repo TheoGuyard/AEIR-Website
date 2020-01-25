@@ -10,13 +10,13 @@
             <h5 class="card-header bg-primary text-white text-center">Gestion des adhésions</h5>
             <div class="card-body">
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-list"></i> <a href="{% url 'adherent_list' %}" class="text-white" style="text-decoration: none;">Liste des amicalistes</a></button>
+                    <a href="{% url 'adherent_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-list"></i> Liste des amicalistes</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-address-card"></i> <a href="{% url 'new_adherent_list' %}" class="text-white" style="text-decoration: none;">Gestion des nouvelles adhésions</a></button>
+                    <a href="{% url 'new_adherent_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-address-card"></i> Gestion des nouvelles adhésions</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-search"></i> <a href="{% url 'adherent_search' %}" class="text-white" style="text-decoration: none;">Rechercher un Amicaliste</a></button>
+                    <a href="{% url 'adherent_search' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-search"></i> Rechercher un Amicaliste</button></a>
                 </div>
             </div>
         </div>
@@ -26,19 +26,19 @@
             <h5 class="card-header bg-primary text-white text-center">Gestion du contenu</h5>
             <div class="card-body">
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-cog"></i> <a href="{% url 'global_parameters_update' %}" class="text-white" style="text-decoration: none;">Paramètres du site</a></button>
+                    <a href="{% url 'global_parameters_update' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-cog"></i> Paramètres du site</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-newspaper"></i> <a href="{% url 'news_list' %}" class="text-white" style="text-decoration: none;">Page des actualités</a></button>
+                    <a href="{% url 'news_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-newspaper"></i> Page des actualités</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-user"></i> <a href="{% url 'team_list' %}" class="text-white" style="text-decoration: none;">Page du bureau</a></button>
+                    <a href="{% url 'team_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-user"></i> Page du bureau</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-handshake"></i> <a href="{% url 'partner_list' %}" class="text-white" style="text-decoration: none;">Page des partenariats</a></button>
+                    <a href="{% url 'partner_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-handshake"></i> Page des partenariats</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-calendar-day"></i> <a href="{% url 'event_list' %}" class="text-white" style="text-decoration: none;">Page des événements</a></button>
+                    <a href="{% url 'event_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-calendar-day"></i> Page des événements</button></a>
                 </div>
             </div>
         </div>
@@ -48,10 +48,10 @@
             <h5 class="card-header bg-primary text-white text-center">Gestion des clubs</h5>
             <div class="card-body">
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-hand-scissors"></i> <a href="{% url 'club_list' %}" class="text-white" style="text-decoration: none;">Page des clubs</a></button>
+                    <a href="{% url 'club_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-hand-scissors"></i> Page des clubs</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-ticket-alt"></i> <a href="{% url 'event_management_list' %}" class="text-white" style="text-decoration: none;">Liste des événements</a></button>
+                    <a href="{% url 'event_management_list' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-ticket-alt"></i> Liste des événements</button></a>
                 </div>
             </div>
         </div>
@@ -61,13 +61,13 @@
             <h5 class="card-header bg-primary text-white text-center">Changement d'année</h5>
             <div class="card-body">
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-book-dead"></i> <a href="{% url 'archived_adherent_search' %}" class="text-white" style="text-decoration: none;">Anciennes adhésions</a></button>
+                    <a href="{% url 'archived_adherent_search' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-book-dead"></i> Anciennes adhésions</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-info w-100"><i class="fas fa-file-upload"></i> <a href="{% url 'import_adhesion' %}" class="text-white" style="text-decoration: none;">Importer des adhésions</a></button>
+                    <a href="{% url 'import_adhesion' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-info w-100"><i class="fas fa-file-upload"></i> Importer des adhésions</button></a>
                 </div>
                 <div class="card-text mb-2">
-                    <button class="btn btn-danger w-100"><i class="fas fa-plus-square"></i> <a href="{% url 'change_year' %}" class="text-white" style="text-decoration: none;">Changement d'année</a></button>
+                    <a href="{% url 'change_year' %}" class="text-white" style="text-decoration: none;"><button class="btn btn-danger w-100"><i class="fas fa-plus-square"></i> Changement d'année</button></a>
                 </div>
             </div>
         </div>

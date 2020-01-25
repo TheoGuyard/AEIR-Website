@@ -5,8 +5,20 @@
 {% block title %}AEIR - Administration{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  Adhésion non trouvée, veuillez vérifier vos identifiants
+
+<div class="row mt-3">
+  <div class="col-md-9 m-auto">
+    <div class="card shadow">
+      <h5 class="card-header bg-primary text-white text-center p-4">L'adhésion est introuvable !</h5>
+      <div class="card-body text-center">
+        <div class="card-text">
+            Vous avez renseigné un Identifiant et un Mot de passe inconnu, merci de vérifier les informations.
+            <hr>
+            <a href="{% url 'adhesion_get_card' %}"><button class="btn btn-primary hvr-grow">Retourner au formulaire</button></a> 
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

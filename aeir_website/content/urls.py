@@ -26,7 +26,7 @@ urlpatterns = [
     path("adhesion", views.AdhesionView.as_view(), name="adhesion"),
     path("adhesion_form", views.AdhesionFormView.as_view(), name="adhesion_form"),
     path(
-        "adhesion_success", views.AdhesionSuccessView.as_view(), name="adhesion_success", kwargs={"adhesion":"adhesion"}
+        "adhesion_success", views.AdhesionSuccessView.as_view(), name="adhesion_success"
     ),
     path(
         "adhesion_get_card",

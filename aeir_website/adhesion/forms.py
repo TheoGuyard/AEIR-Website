@@ -9,15 +9,7 @@ from crispy_forms.bootstrap import InlineCheckboxes
 from bootstrap_datepicker_plus import DatePickerInput
 from .models import Adhesion
 
-current_year = datetime.date.today().year
-BIRTH_YEAR_CHOICES = [year for year in range(current_year - 100, current_year)]
-
-
 class AdhesionForm(forms.ModelForm):
-
-    valid_conditions = forms.BooleanField(
-        label="J'accepte les conditions générales d'adhésion à l'AEIR.", required=True,
-    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -37,7 +29,6 @@ class AdhesionForm(forms.ModelForm):
                 Column("school_year"),
                 Column("departement"),
             ),
-            "valid_conditions",
             HTML("""<hr>"""),
             ButtonHolder(
                 Submit("submit", "Valider", css_class="btn btn-primary hvr-grow"),
@@ -47,7 +38,7 @@ class AdhesionForm(forms.ModelForm):
 
     class Meta:
         model = Adhesion
-        exclude = []
+        fields = ["first_name", "last_name", "birthday", "email", "picture", "insa_student", "school_year", "departement"]
         labels = {
             "first_name": "Nom de famille",
             "last_name": "Prénom",

@@ -145,29 +145,17 @@ class AdhesionView(TemplateView):
         return context
 
 
+
 class AdhesionFormView(FormView):
-    template_name = "content/adhesion_form.html"
+    template_name = 'content/adhesion_form.html'
     form_class = AdhesionForm
+    success_url = 'adhesion_success'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
         context["page_subtitle"] = "Pour devenir Amicaliste, c'est par ici !"
         return context
-
-    def post(self, request):
-        adhesion_form_post = AdhesionForm(request.POST, request.FILES)
-        if adhesion_form_post.is_valid():
-            adhesion_form_post.save()
-            print('valid')
-        else:
-            print('not valid')
-        return self.get_success_url()
-    
-    def get_success_url(self):
-        adhesion = Adhesion.objects.order_by('-adhesion_date').first()
-        return redirect('adhesion_success')
-
 
 class AdhesionSuccessView(TemplateView):
     template_name = "content/adhesion_success.html"
@@ -176,7 +164,6 @@ class AdhesionSuccessView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
         context["page_subtitle"] = "Adhésion en cours de traitement"
-        #context["adhesion"] = kwargs['adhesion']
         return context
 
 

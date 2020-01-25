@@ -5,8 +5,20 @@
 {% block title %}AEIR - Administration{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  Adhésion non payée, veuillez venir à une permanence.
+
+<div class="row mt-3">
+  <div class="col-md-9 m-auto">
+    <div class="card shadow">
+      <h5 class="card-header bg-primary text-white text-center p-4">Adhésion non payée !</h5>
+      <div class="card-body text-center">
+        <div class="card-text">
+            Vous avez bien fait votre adhésion en ligne mais vous n'avez pas réglé le prix de votre adhésion. Merci de vous renseigner auprès du bureau de l'AEIR sur la date de la prochaine permanance Amicaliste.
+            <hr>
+            <a href="{% url 'frontpage' %}"><button class="btn btn-primary hvr-grow">Retourner à l'accueil</button></a> 
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
