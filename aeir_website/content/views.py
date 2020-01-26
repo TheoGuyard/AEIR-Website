@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView, UpdateView, CreateView
 from adhesion.models import Adhesion
 from adhesion.forms import AdhesionForm
 from .models import *
@@ -145,8 +145,7 @@ class AdhesionView(TemplateView):
         return context
 
 
-
-class AdhesionFormView(FormView):
+class AdhesionFormView(CreateView):
     template_name = 'content/adhesion_form.html'
     form_class = AdhesionForm
     success_url = 'adhesion_success'
