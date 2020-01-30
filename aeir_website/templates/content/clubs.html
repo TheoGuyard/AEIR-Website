@@ -15,9 +15,7 @@
                             <img class="card-img-top rounded-circle" src="{{ obj.logo.thumbnail.url }}" alt="Card image cap">
                         </div>
                         <div class="card-body text-center">
-                            <div class="btn btn-primary w-100">
-                                {{ obj }}
-                            </div>
+                            <a class="btn btn-primary w-100" href="{% url 'club_content_detail' obj.id %}">{{ obj }}</a>
                         </div>
                     </div>
                 </a>

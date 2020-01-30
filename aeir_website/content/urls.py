@@ -11,6 +11,11 @@ urlpatterns = [
     ),
     path("team", views.TeamView.as_view(), name="team"),
     path("clubs", views.ClubsView.as_view(), name="clubs"),
+    path(
+        "club_content_detail/<int:id>",
+        views.ClubContentDetailView.as_view(),
+        name="club_content_detail",
+    ),
     path("event", views.EventView.as_view(), name="event"),
     path(
         "event_content_detail/<int:id>",

@@ -5,10 +5,17 @@
 {% block content %}
 
 
-<div class="title-box mx-4 my-4">
-    <h2>Vous n'avez pas le droit d'accéder à cette page.</h2>
-    </br>
-    <a href="{% url 'frontpage' %}" class="button">Retourner à l'accueil</a>
+<div class="row mt-3">
+    <div class="col-md-6 m-auto">
+        <div class="card text-center">
+            <h5 class="card-header bg-primary text-white">Erreur d'autorisation</h5>
+            <div class="card-body">
+                Vous n'avez pas l'autorisation d'accéder à cette page.
+                </br>
+                <a class="btn btn-primary mt-3" href="{% url 'administration' %}">Retourner au panneau d'administration</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 

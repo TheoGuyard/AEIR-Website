@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, UpdateView, CreateView
+from django.http import HttpResponse
 from adhesion.models import Adhesion
 from adhesion.forms import AdhesionForm
 from .models import *
+from content.models import GlobalWebsiteParameters
 
 # Create your views here.
 
@@ -76,6 +78,19 @@ class ClubsView(ListView):
         context["page_subtitle"] = "L'AEIR, c'est plus de 30 clubs"
         return context
 
+class ClubContentDetailView(DetailView):
+    template_name = "content/club_content_detail.html"
+    model = Club
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Clubs"
+        context["page_subtitle"] = "L'AEIR, c'est plus de 30 clubs"
+        return context
+
+    def get_object(self, queryset=None):
+        obj = Club.objects.get(id=self.kwargs["id"])
+        return obj
 
 class EventView(ListView):
     template_name = "content/event.html"
@@ -154,6 +169,7 @@ class AdhesionFormView(CreateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
         context["page_subtitle"] = "Pour devenir Amicaliste, c'est par ici !"
+        context["cgv"] = GlobalWebsiteParameters.objects.first().conditions_adhesion.url
         return context
 
 class AdhesionSuccessView(TemplateView):
@@ -163,6 +179,8 @@ class AdhesionSuccessView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
         context["page_subtitle"] = "Adhésion en cours de traitement"
+        adhesion = Adhesion.objects.filter(paid='False').order_by('-adhesion_date').first()
+        context["adhesion"] = adhesion
         return context
 
 

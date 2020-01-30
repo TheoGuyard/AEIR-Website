@@ -58,11 +58,16 @@ class EventManagementForm(ModelForm):
 
 
 class ArchivedAdhesionFilter(FilterSet):
+    first_name = CharFilter(
+        field_name="first_name", lookup_expr="contains", label="Nom"
+    )
+    last_name = CharFilter(
+        field_name="last_name", lookup_expr="contains", label="Prénom"
+    )
+    year = NumberFilter(
+        field_name="year", lookup_expr="exact", label="Année"
+    )
+
     class Meta:
         model = ArchivedAdhesion
-        fields = {
-            "year": ["exact"],
-        }
-        labels = {
-            "year": "Année",
-        }
+        fields = []

@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+<div class="row mt-3">
+    <div class="col-md-6 m-auto">
+        <div class="card text-center">
+            <h5 class="card-header bg-primary text-white">Supression d'un ancien adhérent</h5>
+            <div class="card-body">
+                <form method='post'>
+                    {% csrf_token %}
+                    <p>Êtes vous sûr de supprimer l'ancien adhérent : {{ object }} ?</p>
+                    <input class="btn btn-primary" type="submit" value="Confirmer">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

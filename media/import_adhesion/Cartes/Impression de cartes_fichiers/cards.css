@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    width: 210mm;
+    padding-left: 22mm;
+}
+
+.card {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 83mm;
+    height: 53mm;
+    margin-right: -4px;
+    vertical-align: top;
+    
+    border: 1px solid white;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.recto {
+    border: 1px solid black;
+}
+
+.title {
+    display: block;
+    width: 35mm;
+    margin: auto;
+    margin-top: 2.8mm;
+    margin-bottom: 2.3mm;
+}
+
+.info {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: "Calibri";
+    font-size: 12pt;
+    line-height: 5pt;
+    margin-left: 4.5mm;
+    text-align: center;
+    width:42mm;
+}
+
+.info p {
+    margin-top: 3mm;
+    margin-bottom: 3mm;
+}
+
+.code {
+    margin: 0;
+    padding: 0;
+}
+
+.code img {
+    width:100%;
+    height: 9mm;
+    text-align: justify;
+    margin-bottom: 1mm;
+}
+
+.code p {
+    margin: 0;
+    text-align: center;
+}
+
+.photo {
+    width: 28mm;
+    height: 35mm;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 12px;
+}
+
+.address {
+    margin:0;
+    margin-bottom: 2px;
+    text-align: center;
+    font-size: 10pt;
+    font-style:italic;
+}
+
+.info > p {
+    white-space: nowrap;
+}
+
+.card p.verso {
+    margin: 0;
+    line-height: 53mm;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card p.verso span {
+    padding: 7mm;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 8pt;
+    line-height: normal;
+}

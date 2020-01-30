@@ -23,8 +23,9 @@
                                 <th scope="col">Nom</th>
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Mail</th>
-                                <th scope="col">Status</th>
-                                <th class="text-center" scope="col">Gestion</th>
+                                <th class="text-center" scope="col">Status</th>
+                                <th class="text-center" scope="col">Gérer</th>
+                                <th class="text-center" scope="col">Supprimer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,11 +36,12 @@
                                         <td>{{ obj.last_name }}</td>
                                         <td>{{ obj.email }}</td>
                                         {% if obj.valid_infos %}
-                                            <td><button class="btn btn-sm btn-success">En cours de traitement</button></td>
+                                            <td class="text-center"><button class="btn btn-sm btn-success">En cours de traitement</button></tdclass="text-center">
                                         {% else %}
-                                            <td><button class="btn btn-sm btn-warning">Demande de modification</button></td>
+                                            <td class="text-center"><button class="btn btn-sm btn-warning">Demande de modification</button></td>
                                         {% endif %}
-                                        <td class="text-center"><a class="btn btn-sm btn-danger" name="card" href="{% url 'new_adherent_detail' obj.pk %}"><i class="fa fa-address-card"></i> Gérer</a></td>
+                                        <td class="text-center"><a class="btn btn-sm btn-info" name="card" href="{% url 'new_adherent_detail' obj.pk %}"><i class="fa fa-address-card"></i> Gérer</a></td>
+                                        <td class="text-center"><a class="btn btn-sm btn-danger" name="card" href="{% url 'new_adherent_delete' obj.pk %}"><i class="fa fa-address-card"></i> Supprimer</a></td>
                                         </tr>
                                     {% endfor %}
                                 {% endif %}

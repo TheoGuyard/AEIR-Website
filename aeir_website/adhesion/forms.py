@@ -11,6 +11,8 @@ from .models import Adhesion
 
 class AdhesionForm(forms.ModelForm):
 
+    captcha = CaptchaField()
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -23,12 +25,21 @@ class AdhesionForm(forms.ModelForm):
                 Column("birthday"),
                 Column("email"),
             ),
-            Field("picture"),
-            "insa_student",
+            Row(
+                Column(Field("picture")),
+                Column("insa_student"),
+            ),
             Row(
                 Column("school_year"),
                 Column("departement"),
             ),
+            HTML("""<hr>"""),
+            Row(
+                Column(Field("captcha", css_class="form-control col-md-5 m-auto"), css_class="text-center"),
+            ),
+            HTML("""<hr>"""),
+            HTML("""En validant votre adhésion, vous vous engagez également à respecter les <a href="{{ MEDIA_URL }}{{ cgv }}" target="_new">conditions
+            générales d'adhésion à l'AEIR</a>."""),
             HTML("""<hr>"""),
             ButtonHolder(
                 Submit("submit", "Valider", css_class="btn btn-primary hvr-grow"),
@@ -51,4 +62,5 @@ class AdhesionForm(forms.ModelForm):
         }
         widgets = {
             "birthday": DatePickerInput(format="%d/%m/%Y"),
+            'picture': forms.FileInput(),
         }

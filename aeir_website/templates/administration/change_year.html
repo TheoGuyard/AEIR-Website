@@ -4,24 +4,31 @@
 
 {% block content %}
 
-<div class='bg-primary p-3 rounded-lg' style='color: white'>
-    <div align='middle'>
-        <h2>Attention</h2>
-        <p>Vous vous apprêtez à changer d'année. Ceci aura pour effet de <strong>supprimer</strong> les
-        adhésions courantes pour les migrer vers les adhésions des <strong>années précédentes</strong>. Assurez
-        vous donc de savoir ce que vous faites. <strong>Cette action ne sera pas réversible.</strong> En
-        cas de problème, veuillez contacter l'administrateur du site à l'adresse suivante :</p>
-        <div><strong>guyard.theo@gmail.com</strong></div>
+<div class="row mt-3">
+    <div class="col-md-10 m-auto">
+        <div class="card shadow">
+            <h5 class="card-header bg-primary text-white text-center">Changement d'année</h5>
+            <div class="card-body">
+                <div class="card-text text-center">
+                    <h2>Attention</h2>
+                    <p>Vous vous apprêtez à changer d'année. Ceci aura pour effet de <strong>supprimer</strong> les
+                    adhésions courantes pour les migrer vers les adhésions des <strong>années précédentes</strong>. 
+                    En changeant d'année, <strong>chaque adhérent recevra un mail de réadhésion</strong>. Assurez
+                    vous donc de savoir ce que vous faites. <strong>Cette action ne sera pas réversible.</strong> En
+                    cas de problème, veuillez contacter l'administrateur du site à l'adresse suivante :</p>
+                    <div><strong>guyard.theo@gmail.com</strong></div>
+                </div>
+                <div class='row m-3'>
+                    <div class='col' align='middle'>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input class="btn btn-primary" type="submit" value="Paser à l'année suivante">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class='row m-3'>
-    <div class='col' align='middle'>
-        <form method="post">
-            {% csrf_token %}
-            <input class="btn btn-primary" type="submit" value="Paser à l'année suivante">
-        </form>
-    </div>
-</div>
-
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from .models import *
-from django.forms import ModelForm, CharField
+from django.forms import ModelForm, CharField, FileInput
 from django.forms.widgets import SelectDateWidget
 from django.utils import timezone
 from ckeditor.widgets import CKEditorWidget
@@ -44,6 +44,12 @@ class GlobalWebsiteParametersForm(ModelForm):
             "aeir_description": "Description de l'AEIR",
             "adhesion_description": "Texte de la page d'adhésion",
         }
+        widgets = {
+            'frontpage_video': FileInput(),
+            'default_adhesion_picture': FileInput(),
+            'conditions_adhesion': FileInput(),
+        }
+        
 
 
 class NewsForm(ModelForm):
@@ -75,6 +81,7 @@ class NewsForm(ModelForm):
         }
         widgets = {
             "date": DatePickerInput(format="%d/%m/%Y"),
+            'picture': FileInput(),
         }
 
 
@@ -107,6 +114,9 @@ class ClubForm(ModelForm):
             "mail": "Email",
             "website": "Site internet",
         }
+        widgets = {
+            'logo': FileInput(),
+        }
 
 
 class TeamMemberForm(ModelForm):
@@ -135,6 +145,9 @@ class TeamMemberForm(ModelForm):
             "picture": "Photo",
             "post": "Poste",
             "mail": "Email",
+        }
+        widgets = {
+            'picture': FileInput(),
         }
 
 
@@ -167,6 +180,9 @@ class PartnerForm(ModelForm):
             "mail": "Email",
             "website": "Site internet",
         }
+        widgets = {
+            'logo': FileInput(),
+        }
 
 
 class EventForm(ModelForm):
@@ -198,4 +214,6 @@ class EventForm(ModelForm):
         }
         widgets = {
             "date": DatePickerInput(format="%d/%m/%Y"),
+            'picture': FileInput(),
         }
+

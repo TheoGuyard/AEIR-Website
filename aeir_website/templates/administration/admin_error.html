@@ -4,6 +4,17 @@
 
 {% block content %}
 
-Erreur, veuillez contacter l'administrateur du site.
+<div class="row mt-3">
+    <div class="col-md-6 m-auto">
+        <div class="card text-center">
+            <h5 class="card-header bg-primary text-white">Erreur</h5>
+            <div class="card-body">
+                Merci de contacter l'administrateur du site.
+                </br>
+                <a class="btn btn-primary mt-3" href="{% url 'administration' %}">Retourner au panneau d'administration</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

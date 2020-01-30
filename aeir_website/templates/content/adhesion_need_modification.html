@@ -1,26 +1,32 @@
 {% extends 'base.html' %} 
 
+{% load crispy_forms_tags %}
+
 {% block title %}AEIR - Administration{% endblock %}
 
 {% block content %}
 
 <div class="row mt-3">
-  <div class="col-md-9 m-auto">
-    <div class="card shadow">
-      <h5 class="card-header bg-primary text-white text-center p-4">Votre adhésion a besoin de modifications !</h5>
-      <div class="card-body text-center">
-        <div class="card-text">
-            Les informations rensignées ne sont pas confrormes. Veuillez vérifier que vos informations sont rentrées correctement.
-            <hr>
-            <form method="post">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Modifier">
-          </form>
-        </div>
+  <div class="col-md-8 m-auto">
+      <div class="card shadow">
+          <h5 class="card-header bg-primary text-white text-center">Votre adhésion a besoin de modifications !</h5>
+          <div class="card-body">
+              <hr>
+              <div class="card-text text-center">
+                Votre adhésion est bien prise en compte mais il semble que certaines informations de soient pas conformes ...
+                Veuillez vérifier l'exactitude des données ci-dessous et modifiez-les si besoin. La photo doit être centrée sur votre tête
+                et de bonne qualité.
+              </div>
+              <hr>
+              <form enctype='multipart/form-data' method='post'>
+                  {% csrf_token %}
+                  {{ form.media }}
+                  {% crispy form %}
+              </form>
+          </div>
       </div>
-    </div>
   </div>
 </div>
+
 
 {% endblock %}

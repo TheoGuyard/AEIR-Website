@@ -41,6 +41,11 @@ urlpatterns = [
         name="new_adherent_detail",
     ),
     path(
+        "new_adherent_delete/<int:id>",
+        views.AdministrationNewAdherentDeleteView.as_view(),
+        name="new_adherent_delete",
+    ),
+    path(
         "adherent_search",
         views.AdministrationAdherentSearchView.as_view(),
         name="adherent_search",
@@ -192,6 +197,11 @@ urlpatterns = [
         "archived_adherent_search",
         views.AdministrationArchivedAdhesionSearchView.as_view(),
         name="archived_adherent_search",
+    ),
+    path(
+        "archived_adherent_delete/<int:id>",
+        views.AdministrationArchivedAdherentDeleteView.as_view(),
+        name="archived_adherent_delete",
     ),
     path(
         "import_adhesion",

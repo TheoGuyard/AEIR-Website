@@ -140,8 +140,7 @@ LOGIN_REDIRECT_URL = "administration"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
-# Ckeditor
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+# CKEditor
 
 CKEDITOR_CONFIGS = {
     "default": {
@@ -167,7 +166,21 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+
+
 # Datetimepicker
 BOOTSTRAP4 = {
     "include_jquery": True,
 }
+
+# Captcha
+CAPTCHA_FONT_SIZE = 30
+
+
+# Mailing
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'guyard.theo@gmail.com'
+EMAIL_HOST_PASSWORD = 'Th&o1012'

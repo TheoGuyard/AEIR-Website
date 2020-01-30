@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}AEIR - Adhésions{% endblock %}
+
+{% block content %}
+
+<div class="row mt-3">
+    <div class="col-md-6 m-auto">
+        <div class="card text-center shadow">
+            <h5 class="card-header bg-primary text-white">Supression d'une nouvelle adhésion</h5>
+            <div class="card-body">
+                <form method='post'>
+                    {% csrf_token %}
+                    <p>Êtes-vous sûr de supprimer l'adhésion de {{ object }} ?</p>
+                    <input class="btn btn-primary" type="submit" value="Confirmer la suppression">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

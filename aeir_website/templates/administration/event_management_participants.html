@@ -47,9 +47,9 @@
                             <tr>
                             <th scope="col">Nom</th>
                             <th scope="col">Prénom</th>
-                            <th scope="col">Adresse</th>
-                            <th scope="col">Promo</th>
-                            <th scope="col">Supprimer</th>
+                            <th scope="col">Adresse mail</th>
+                            <th class="text-center" scope="col">Promo</th>
+                            <th class="text-center" scope="col">Supprimer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,8 +61,8 @@
                                     <td>{{ obj.last_name }}</td>
                                     <td>{{ obj.first_name }}</td>
                                     <td>{{ obj.email }}</td>
-                                    <td>{{ obj.school_year }} {{ obj.departement }}</td>
-                                    <td><button class="btn btn-sm btn-danger" type="submit" name="delete_adherent_{{ obj.id }}"><i class="fas fa-trash-alt"></i> Supprimer</button></td>
+                                    <td class="text-center">{{ obj.promo }}</td>
+                                    <td class="text-center"><button class="btn btn-sm btn-danger" type="submit" name="delete_adherent_{{ obj.id }}"><i class="fas fa-trash-alt"></i> Supprimer</button></td>
                                     </tr>
                                 {% endfor %}
                                 {% if is_paginated %}

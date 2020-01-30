@@ -6,68 +6,81 @@
 
 {% block content %}
 
-<div class='row'>
-    <div class='col-5 m-auto'>
-        <form action="" method="get">
-            {{ filter.form|crispy }}
-            <div align='middle'>
-                <input class="btn btn-primary" type="submit" value="Rechercher">
-            </div>
-        </form>
-    </div>
-</div>
-
-<hr>
-
-<div class="card">
-    <form method="post">
-        {% csrf_token %}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Année</th>
-                <th scope="col">Détails</th>
-                <th scope="col">Ré-adhésion</th>
-                <th scope="col">Supprimer</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if filter.qs %}
-                    {% for obj in filter.qs %}
-                        <tr>
-                        <td>{{ obj.first_name }}</td>
-                        <td>{{ obj.last_name }}</td>
-                        <td>{{ obj.year }}</td>
-                        <td><a class="btn btn-sm btn-info" href=""><i class="fas fa-list"></i> Détail</a></td>
-                        <td><a class="btn btn-sm btn-info" href=""><i class="fas fa-envelope"></i> Envoyer le mail</a></td>
-                        <td><a class="btn btn-sm btn-danger" href=""><i class="fas fa-trash-alt"></i> Supprimer</a></td>
-                        </tr>
-                    {% endfor %}
-                    {% if is_paginated %}
-                    <div class="pagination">
-                        <span class="page-links">
-                        {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
-                        {% endif %}
-                        <span class="page-current">
-                            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-                        </span>
-                        {% if page_obj.has_next %} -
-                        <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
-                        {% endif %}
-                        </span>
+<div class="card shadow">
+    <h5 class="card-header bg-primary text-white text-center">Rechercher un Amicaliste</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 pb-3">
+                <div class="card shadow-sm">
+                    <h6 class="card-header bg-info text-white"><strong>Critères de recherche</strong></h6>
+                    <div class="card-body">
+                        <form action="" class="form" method="get">
+                            {{ filter.form|crispy }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Rechercher</button>
+                            </div>
+                        </form>
                     </div>
-                    {% endif %}
-                {% else %}
-                    <tr>
-                    <td colspan="10">Aucun résultat ...</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </form>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="table-responsive">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <form method="post">
+                                {% csrf_token %}
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Année</th>
+                                        <th scope="col">Promo</th>
+                                        <th class="text-center" scope="col">Ré-adhésion</th>
+                                        <th class="text-center" scope="col">Supprimer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if filter.qs %}
+                                            {% for obj in filter.qs %}
+                                                <tr>
+                                                <td>{{ obj.first_name }}</td>
+                                                <td>{{ obj.last_name }}</td>
+                                                <td>{{ obj.year }}</td>
+                                                <td>{{ obj.promo }}</td>
+                                                <td class="text-center" ><button class="btn btn-sm btn-warning" name="send_mail" value="{{ obj.id }}" type="submit"><i class="fas fa-envelope"></i> Envoyer le mail</button></td>
+                                                <td class="text-center" ><a class="btn btn-sm btn-danger" href="{% url 'archived_adherent_delete' obj.id %}"><i class="fas fa-trash-alt"></i> Supprimer</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% if is_paginated %}
+                                            <div class="pagination">
+                                                <span class="page-links">
+                                                {% if page_obj.has_previous %}
+                                                <a href="?page={{ page_obj.previous_page_number }}">Précedent</a> - 
+                                                {% endif %}
+                                                <span class="page-current">
+                                                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                                                </span>
+                                                {% if page_obj.has_next %} -
+                                                <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                                                {% endif %}
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                        {% else %}
+                                            <tr>
+                                            <td colspan="10">Aucun résultat ...</td>
+                                            </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

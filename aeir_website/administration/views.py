@@ -42,7 +42,7 @@ class AdministrationLogoutView(LoginRequiredMixin, LogoutView):
 
 
 class AdministrationPermissionDeniedView(LoginRequiredMixin, TemplateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/permission_denied.html"
 
     def get_context_data(self, **kwargs):
@@ -80,7 +80,7 @@ class AdministrationAdminErrorView(LoginView):
 
 
 class AdministrationAdherentListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/adherent_list.html"
     model = Adhesion
     paginate_by = 50
@@ -115,7 +115,7 @@ class AdministrationAdherentListView(UserPassesTestMixin, LoginRequiredMixin, Li
 class AdministrationAdherentUpdateView(
     UserPassesTestMixin, LoginRequiredMixin, UpdateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/adherent_update.html"
     model = Adhesion
     form_class = AdhesionForm
@@ -143,7 +143,7 @@ class AdministrationAdherentUpdateView(
 class AdministrationAdherentDeleteView(
     UserPassesTestMixin, LoginRequiredMixin, DeleteView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/adherent_delete.html"
     model = Adhesion
 
@@ -158,7 +158,33 @@ class AdministrationAdherentDeleteView(
         return obj
 
     def get_success_url(self):
-        return reverse("administration")
+        return reverse("adherent_list")
+
+    def test_func(self):
+        return self.request.user.groups.filter(name="Adhesion AEIR management").exists()
+
+    def handle_no_permission(self):
+        return redirect("permission_denied")
+
+class AdministrationNewAdherentDeleteView(
+    UserPassesTestMixin, LoginRequiredMixin, DeleteView
+):
+    login_url = "login"
+    template_name = "administration/new_adherent_delete.html"
+    model = Adhesion
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Administration"
+        context["page_subtitle"] = "Gestion des adhésions"
+        return context
+
+    def get_object(self, queryset=None):
+        obj = Adhesion.objects.get(id=self.kwargs["id"])
+        return obj
+
+    def get_success_url(self):
+        return reverse("new_adherent_list")
 
     def test_func(self):
         return self.request.user.groups.filter(name="Adhesion AEIR management").exists()
@@ -170,7 +196,7 @@ class AdministrationAdherentDeleteView(
 class AdministrationNewAdherentListView(
     UserPassesTestMixin, LoginRequiredMixin, ListView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/new_adherent_list.html"
     model = Adhesion
     paginate_by = 10
@@ -203,7 +229,7 @@ class AdministrationNewAdherentListView(
 class AdministrationNewAdherentDetailView(
     UserPassesTestMixin, LoginRequiredMixin, DetailView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/new_adherent_detail.html"
     model = Adhesion
 
@@ -231,7 +257,7 @@ class AdministrationNewAdherentDetailView(
 class AdministrationAdherentSearchView(
     UserPassesTestMixin, LoginRequiredMixin, TemplateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/adherent_search.html"
     paginate_by = 10
 
@@ -267,7 +293,7 @@ class AdministrationAdherentSearchView(
 class AdministrationGlobalParametersUpdateView(
     UserPassesTestMixin, LoginRequiredMixin, UpdateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/global_parameters_update.html"
     model = GlobalWebsiteParameters
     form_class = GlobalWebsiteParametersForm
@@ -295,7 +321,7 @@ class AdministrationGlobalParametersUpdateView(
 
 
 class AdministrationNewsListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/news_list.html"
     model = News
     paginate_by = 50
@@ -318,7 +344,7 @@ class AdministrationNewsListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
 
 
 class AdministrationNewsDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/news_detail.html"
     model = News
 
@@ -336,7 +362,7 @@ class AdministrationNewsDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
 
 
 class AdministrationNewsCreateView(UserPassesTestMixin, LoginRequiredMixin, CreateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/news_create.html"
     model = News
     form_class = NewsForm
@@ -356,7 +382,7 @@ class AdministrationNewsCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
 
 
 class AdministrationNewsUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/news_update.html"
     model = News
     form_class = NewsForm
@@ -378,7 +404,7 @@ class AdministrationNewsUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
 
 
 class AdministrationNewsDeleteView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/news_delete.html"
     model = News
 
@@ -406,7 +432,7 @@ class AdministrationNewsDeleteView(UserPassesTestMixin, LoginRequiredMixin, Dele
 
 
 class AdministrationTeamListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/team_list.html"
     model = TeamMember
     paginate_by = 50
@@ -429,7 +455,7 @@ class AdministrationTeamListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
 
 
 class AdministrationTeamDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/team_detail.html"
     model = TeamMember
 
@@ -447,7 +473,7 @@ class AdministrationTeamDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
 
 
 class AdministrationTeamCreateView(UserPassesTestMixin, LoginRequiredMixin, CreateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/team_create.html"
     model = TeamMember
     form_class = TeamMemberForm
@@ -467,7 +493,7 @@ class AdministrationTeamCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
 
 
 class AdministrationTeamUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/team_update.html"
     model = TeamMember
     form_class = TeamMemberForm
@@ -489,7 +515,7 @@ class AdministrationTeamUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
 
 
 class AdministrationTeamDeleteView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/team_delete.html"
     model = TeamMember
 
@@ -517,7 +543,7 @@ class AdministrationTeamDeleteView(UserPassesTestMixin, LoginRequiredMixin, Dele
 
 
 class AdministrationEventListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_list.html"
     model = Event
     paginate_by = 50
@@ -542,7 +568,7 @@ class AdministrationEventListView(UserPassesTestMixin, LoginRequiredMixin, ListV
 class AdministrationEventDetailView(
     UserPassesTestMixin, LoginRequiredMixin, DetailView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_detail.html"
     model = Event
 
@@ -562,7 +588,7 @@ class AdministrationEventDetailView(
 class AdministrationEventCreateView(
     UserPassesTestMixin, LoginRequiredMixin, CreateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_create.html"
     model = Event
     form_class = EventForm
@@ -584,7 +610,7 @@ class AdministrationEventCreateView(
 class AdministrationEventUpdateView(
     UserPassesTestMixin, LoginRequiredMixin, UpdateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_update.html"
     model = Event
     form_class = EventForm
@@ -608,7 +634,7 @@ class AdministrationEventUpdateView(
 class AdministrationEventDeleteView(
     UserPassesTestMixin, LoginRequiredMixin, DeleteView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_delete.html"
     model = Event
 
@@ -637,7 +663,7 @@ class AdministrationEventDeleteView(
 
 class AdministrationPartnerListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
 
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/partner_list.html"
     model = Partner
     paginate_by = 50
@@ -662,7 +688,7 @@ class AdministrationPartnerListView(UserPassesTestMixin, LoginRequiredMixin, Lis
 class AdministrationPartnerDetailView(
     UserPassesTestMixin, LoginRequiredMixin, DetailView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/partner_detail.html"
     model = Partner
 
@@ -682,7 +708,7 @@ class AdministrationPartnerDetailView(
 class AdministrationPartnerCreateView(
     UserPassesTestMixin, LoginRequiredMixin, CreateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/partner_create.html"
     model = Partner
     form_class = PartnerForm
@@ -704,7 +730,7 @@ class AdministrationPartnerCreateView(
 class AdministrationPartnerUpdateView(
     UserPassesTestMixin, LoginRequiredMixin, UpdateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/partner_update.html"
     model = Partner
     form_class = PartnerForm
@@ -728,7 +754,7 @@ class AdministrationPartnerUpdateView(
 class AdministrationPartnerDeleteView(
     UserPassesTestMixin, LoginRequiredMixin, DeleteView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/partner_delete.html"
     model = Partner
 
@@ -758,7 +784,7 @@ class AdministrationPartnerDeleteView(
 
 
 class AdministrationClubListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/club_list.html"
     model = Club
 
@@ -783,7 +809,7 @@ class AdministrationClubListView(UserPassesTestMixin, LoginRequiredMixin, ListVi
 
 
 class AdministrationClubDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/club_detail.html"
     model = Club
 
@@ -804,7 +830,7 @@ class AdministrationClubDetailView(UserPassesTestMixin, LoginRequiredMixin, Deta
 
 
 class AdministrationClubCreateView(UserPassesTestMixin, LoginRequiredMixin, CreateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/club_create.html"
     model = Club
     form_class = ClubForm
@@ -827,7 +853,7 @@ class AdministrationClubCreateView(UserPassesTestMixin, LoginRequiredMixin, Crea
 
 
 class AdministrationClubUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/club_update.html"
     model = Club
     form_class = ClubForm
@@ -852,7 +878,7 @@ class AdministrationClubUpdateView(UserPassesTestMixin, LoginRequiredMixin, Upda
 
 
 class AdministrationClubDeleteView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/club_delete.html"
     model = Club
 
@@ -886,7 +912,7 @@ class AdministrationEventManagementListView(
     UserPassesTestMixin, LoginRequiredMixin, ListView
 ):
 
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_management_list.html"
     model = EventManagement
     paginate_by = 50
@@ -911,7 +937,7 @@ class AdministrationEventManagementListView(
 class AdministrationEventManagementCreateView(
     UserPassesTestMixin, LoginRequiredMixin, CreateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_management_create.html"
     model = EventManagement
     form_class = EventManagementForm
@@ -934,7 +960,7 @@ class AdministrationEventManagementParticipantsView(
     UserPassesTestMixin, LoginRequiredMixin, TemplateView
 ):
 
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_management_participants.html"
     paginate_by = 50
 
@@ -978,7 +1004,7 @@ class AdministrationEventManagementParticipantsView(
 class AdministrationEventManagementPreventeView(
     UserPassesTestMixin, LoginRequiredMixin, DetailView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_management_prevente.html"
     model = EventManagement
 
@@ -1005,8 +1031,8 @@ class AdministrationEventManagementPreventeView(
         form = request.POST or None
         event = EventManagement.objects.get(pk=self.kwargs["pk"])
         for button in form:
-            if button.startswith("adherent_"):
-                user_id = button.split("_")[-1]
+            if button.startswith("adherent"):
+                user_id = form[button].split("_")[-1]
                 event.participants.add(Adhesion.objects.get(id=int(user_id)))
                 event.save()
             if button.startswith("non_adherent"):
@@ -1019,7 +1045,7 @@ class AdministrationEventManagementPreventeView(
 class AdministrationEventManagementDeleteView(
     UserPassesTestMixin, LoginRequiredMixin, DeleteView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/event_management_delete.html"
     model = EventManagement
 
@@ -1049,7 +1075,7 @@ class AdministrationEventManagementDeleteView(
 class AdministrationArchivedAdhesionSearchView(
     UserPassesTestMixin, LoginRequiredMixin, TemplateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/archived_adherent_search.html"
     paginate_by = 50
 
@@ -1068,11 +1094,46 @@ class AdministrationArchivedAdhesionSearchView(
     def handle_no_permission(self):
         return redirect("permission_denied")
 
+    def post(self, request):
+
+        form = request.POST
+        adherent = ArchivedAdhesion.objects.get(id=int(form['send_mail']))
+        adherent.send_mail()
+
+        return redirect('archived_adherent_search')
+
+class AdministrationArchivedAdherentDeleteView(
+    UserPassesTestMixin, LoginRequiredMixin, DeleteView
+):
+    login_url = "login"
+    template_name = "administration/archived_adherent_delete.html"
+    model = ArchivedAdhesion
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Administration"
+        context["page_subtitle"] = "Changement d'année"
+        return context
+
+    def get_object(self, queryset=None):
+        obj = ArchivedAdhesion.objects.get(id=self.kwargs["id"])
+        return obj
+
+    def get_success_url(self):
+        return reverse("archived_adherent_search")
+
+    def test_func(self):
+        return self.request.user.groups.filter(name="Year management").exists()
+
+    def handle_no_permission(self):
+        return redirect("permission_denied")
+
+
 
 class AdministrationChangeYearView(
     UserPassesTestMixin, LoginRequiredMixin, TemplateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/change_year.html"
 
     def get_context_data(self, **kwargs):
@@ -1117,7 +1178,7 @@ class AdministrationChangeYearView(
 class AdministrationImportAdhesionView(
     UserPassesTestMixin, LoginRequiredMixin, TemplateView
 ):
-    login_url = "administration_login"
+    login_url = "login"
     template_name = "administration/import_adhesion.html"
 
     def get_context_data(self, **kwargs):

@@ -2,9 +2,12 @@ import random
 import string
 import datetime
 from django.db import models
+from django.conf import settings
+from django.core.mail import send_mail
 from .card import generate_card
 from stdimage.validators import MinSizeValidator, MaxSizeValidator
 from stdimage.models import StdImageField
+
 
 # Create your models here.
 
@@ -37,6 +40,11 @@ DEPARTEMENT = (
     ("Autre", "Autre"),
 )
 
+BINARY_CHOICE = (
+    (True, "Oui"),
+    (False, "Non"),
+)
+
 
 class Adhesion(models.Model):
 
@@ -52,7 +60,7 @@ class Adhesion(models.Model):
     )
 
     # Schooling infos
-    insa_student = models.BooleanField(default=False)
+    insa_student = models.BooleanField(default=False, choices=BINARY_CHOICE)
     school_year = models.CharField(max_length=200, choices=SCHOOL_YEAR)
     departement = models.CharField(max_length=200, choices=DEPARTEMENT)
 
@@ -130,6 +138,26 @@ class ArchivedAdhesion(models.Model):
     # Administration infos
     adhesion_date = models.DateField()
     year = models.IntegerField()
+
+    @property
+    def promo(self):
+        if self.departement != "Autre" and self.school_year != "Autre":
+            return self.school_year + " " + self.departement
+        elif self.departement != "Autre":
+            return self.departement
+        elif self.school_year != "Autre":
+            return self.school_year + " " + "A"
+        else:
+            return "Non précisé"
+
+    def send_mail(self):
+
+        ### IMPORTANT ###
+        email = 'guyard.theo@gmail.com'
+        # email = self.mail
+        send_mail("Réadhésion à l\'AEIR", "Bonjour, \n Vous pouvez désormais vous résincrire à l'AIER à l'adresse suivante : aeir.insa-rennes.fr ! \n Bonne journée !", 
+            settings.EMAIL_HOST_USER,
+            [email], fail_silently=False)
 
     def attrs(self):
         for attr, value in self.__dict__.iteritems():
