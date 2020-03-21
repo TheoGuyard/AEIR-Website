@@ -1,5 +1,5 @@
 from .models import *
-from django.forms import ModelForm, CharField, FileInput
+from django.forms import ModelForm, CharField, FileInput, ClearableFileInput
 from django.forms.widgets import SelectDateWidget
 from django.utils import timezone
 from ckeditor.widgets import CKEditorWidget
@@ -21,8 +21,11 @@ class GlobalWebsiteParametersForm(ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Field("frontpage_video"),
+            HTML("""<hr>"""),
             Field("default_adhesion_picture"),
+            HTML("""<hr>"""),
             Field("conditions_adhesion"),
+            HTML("""<hr>"""),
             Field("insa_description"),
             Field("aeir_description"),
             Field("adhesion_description"),
@@ -45,9 +48,9 @@ class GlobalWebsiteParametersForm(ModelForm):
             "adhesion_description": "Texte de la page d'adhésion",
         }
         widgets = {
-            'frontpage_video': FileInput(),
-            'default_adhesion_picture': FileInput(),
-            'conditions_adhesion': FileInput(),
+            'frontpage_video': ClearableFileInput(),
+            'default_adhesion_picture': ClearableFileInput(),
+            'conditions_adhesion': ClearableFileInput(),
         }
         
 
@@ -81,7 +84,7 @@ class NewsForm(ModelForm):
         }
         widgets = {
             "date": DatePickerInput(format="%d/%m/%Y"),
-            'picture': FileInput(),
+            'picture': ClearableFileInput(),
         }
 
 
@@ -115,7 +118,7 @@ class ClubForm(ModelForm):
             "website": "Site internet",
         }
         widgets = {
-            'logo': FileInput(),
+            'logo': ClearableFileInput(),
         }
 
 
@@ -147,7 +150,7 @@ class TeamMemberForm(ModelForm):
             "mail": "Email",
         }
         widgets = {
-            'picture': FileInput(),
+            'picture': ClearableFileInput(),
         }
 
 
@@ -181,7 +184,7 @@ class PartnerForm(ModelForm):
             "website": "Site internet",
         }
         widgets = {
-            'logo': FileInput(),
+            'logo': ClearableFileInput(),
         }
 
 
@@ -214,6 +217,6 @@ class EventForm(ModelForm):
         }
         widgets = {
             "date": DatePickerInput(format="%d/%m/%Y"),
-            'picture': FileInput(),
+            'picture': ClearableFileInput(),
         }
 

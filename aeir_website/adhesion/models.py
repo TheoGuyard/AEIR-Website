@@ -1,6 +1,7 @@
 import random
 import string
 import datetime
+import uuid
 from django.db import models
 from django.conf import settings
 from django.core.mail import send_mail
@@ -68,6 +69,7 @@ class Adhesion(models.Model):
     adhesion_date = models.DateField(auto_now_add=True)
     card_id = models.CharField(max_length=8, default=random_id)
     card_pwd = models.CharField(max_length=8, default=random_id)
+    uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
     paid = models.BooleanField(default=False)
     valid_infos = models.BooleanField(default=True)
 
@@ -136,7 +138,6 @@ class ArchivedAdhesion(models.Model):
     departement = models.CharField(max_length=200)
 
     # Administration infos
-    adhesion_date = models.DateField()
     year = models.IntegerField()
 
     @property

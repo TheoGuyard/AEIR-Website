@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, UpdateView, CreateView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from adhesion.models import Adhesion
 from adhesion.forms import AdhesionForm
 from .models import *
@@ -163,7 +163,6 @@ class AdhesionView(TemplateView):
 class AdhesionFormView(CreateView):
     template_name = 'content/adhesion_form.html'
     form_class = AdhesionForm
-    success_url = 'adhesion_success'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -172,8 +171,24 @@ class AdhesionFormView(CreateView):
         context["cgv"] = GlobalWebsiteParameters.objects.first().conditions_adhesion.url
         return context
 
+    def get_success_url(self):
+        return reverse('adhesion_success', kwargs={'uuid':self.object.uuid})
+
+
 class AdhesionSuccessView(TemplateView):
     template_name = "content/adhesion_success.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Adhésion"
+        context["page_subtitle"] = "Adhésion en cours de traitement"
+        adhesion = Adhesion.objects.get(uuid=kwargs['uuid'])
+        context["adhesion"] = adhesion
+        return context
+
+
+class AdhesionModificationSuccessView(TemplateView):
+    template_name = "content/adhesion_modification_success.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -232,11 +247,11 @@ class AdhesionNeedModificationView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Adhésion"
-        context["page_subtitle"] = "Adhésion non trouvée"
+        context["page_subtitle"] = "Modification des données de l'adhésion"
         return context
 
     def get_success_url(self):
-        return redirect("adhesion_success")
+        return reverse("adhesion_modification_success")
 
     def get_object(self, queryset=None):
         obj = Adhesion.objects.get(id=self.kwargs["id"])

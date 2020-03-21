@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}AEIR - Administration{% endblock %}
+
+{% block content %}
+
+
+<div class="row mt-3">
+    <div class="col-md-9 m-auto">
+      <div class="card shadow">
+        <h5 class="card-header bg-primary text-white text-center p-4">Merci {{ adhesion }} !</h5>
+        <div class="card-body text-center">
+          <div class="card-text">
+              Votre modification a bien été prise en compte, l'équipe de l'AEIR se charge de la suite ! 
+              Vous devrez vous rendre à une permanance Amicaliste pour régler le montant de l'adhésion.
+              Vous pourrez ensuite revenir sur le site et récupérer votre carte Amicaliste avec les identifiants suivants :
+              <div class="row m-3">
+                <div class="col-md-5 m-auto text-center">
+                  <div class="border border-dark rounded">
+                    Identifiant : <strong>{{ adhesion.card_id }}</strong>
+                    <br>
+                    Mot de passe : <strong>{{ adhesion.card_pwd }}</strong>
+                  </div>
+                </div>
+              </div>
+              Ne perdez pas ces informations !
+              <hr>
+              <a href="{% url 'frontpage' %}"><button class="btn btn-primary hvr-grow">Retourner à l'accueil</button></a> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

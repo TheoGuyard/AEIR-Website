@@ -1156,21 +1156,26 @@ class AdministrationChangeYearView(
         nb_fail = 0
         adhesions = Adhesion.objects.filter(paid=True)
         for adhesion in adhesions:
-            archived_adhesion = ArchivedAdhesion.objects.create(
-                first_name=adhesion.first_name,
-                last_name=adhesion.last_name,
-                email=adhesion.email,
-                insa_student=adhesion.insa_student,
-                school_year=adhesion.school_year,
-                departement=adhesion.departement,
-                adhesion_date=adhesion.adhesion_date,
-                year=int(adhesion.year.split(" ")[0]),
-            )
-            archived_adhesion.save()
-            nb_transfer += 1
-            # except:
-            #    nb_fail += 1
-        print(nb_transfer, nb_fail)
+            try:
+                archived_adhesion = ArchivedAdhesion.objects.create(
+                    first_name=adhesion.first_name,
+                    last_name=adhesion.last_name,
+                    email=adhesion.email,
+                    insa_student=adhesion.insa_student,
+                    school_year=adhesion.school_year,
+                    departement=adhesion.departement,
+                    year=int(adhesion.year.split(" ")[0]),
+                )
+                archived_adhesion.save()
+                archived_adhesion.send_mail()
+                adhesion.delete()
+                nb_transfer += 1
+            except:
+                adhesion.delete()
+                nb_fail += 1
+        adhesions = Adhesion.objects.filter(paid=False)
+        for adhesion in adhesions:
+            adhesion.delete()
 
         return redirect("administration")
 

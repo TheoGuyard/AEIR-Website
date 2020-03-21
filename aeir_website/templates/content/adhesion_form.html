@@ -11,7 +11,7 @@
         <div class="card shadow">
             <h5 class="card-header bg-primary text-white text-center p-4">Formulaire d'adhésion</h5>
             <div class="card-body">
-                <form enctype='multipart/form-data' method='post'>
+                <form id="adhesion-form" enctype='multipart/form-data' method='post'>
                     {% csrf_token %}
                     {{ form.media }}
                     {% crispy form %}
@@ -20,5 +20,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

@@ -31,7 +31,10 @@ urlpatterns = [
     path("adhesion", views.AdhesionView.as_view(), name="adhesion"),
     path("adhesion_form", views.AdhesionFormView.as_view(), name="adhesion_form"),
     path(
-        "adhesion_success", views.AdhesionSuccessView.as_view(), name="adhesion_success"
+        "adhesion_success/<uuid:uuid>", views.AdhesionSuccessView.as_view(), name="adhesion_success"
+    ),
+    path(
+        "adhesion_modification_success", views.AdhesionModificationSuccessView.as_view(), name="adhesion_modification_success"
     ),
     path(
         "adhesion_get_card",
