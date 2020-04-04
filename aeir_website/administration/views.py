@@ -7,10 +7,10 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from adhesion.models import Adhesion, ArchivedAdhesion
-from adhesion.forms import AdhesionForm
-from content.models import *
-from content.forms import *
+from aeir_website.adhesion.models import Adhesion, ArchivedAdhesion
+from aeir_website.adhesion.forms import AdhesionForm
+from aeir_website.content.models import *
+from aeir_website.content.forms import *
 from .csv_extract import list_to_csv, list_to_csv_event
 from .forms import AdhesionFilter, EventManagementForm, ArchivedAdhesionFilter
 from .models import *

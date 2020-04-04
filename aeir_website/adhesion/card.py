@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.templatetags.static import static
 from reportlab.pdfgen import canvas
 from reportlab.graphics.barcode import code128
-from content.models import GlobalWebsiteParameters
+from aeir_website.content.models import GlobalWebsiteParameters
 
 
 def generate_card(adhesion):

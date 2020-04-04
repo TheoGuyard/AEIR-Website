@@ -1,6 +1,6 @@
 import csv
 from django.http import HttpResponse
-from adhesion.models import Adhesion, ArchivedAdhesion
+from aeir_website.adhesion.models import Adhesion, ArchivedAdhesion
 
 
 def list_to_csv(objects):

@@ -3,10 +3,10 @@ from django.views.generic import TemplateView, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, UpdateView, CreateView
 from django.http import HttpResponse, JsonResponse
-from adhesion.models import Adhesion
-from adhesion.forms import AdhesionForm
+from aeir_website.adhesion.models import Adhesion
+from aeir_website.adhesion.forms import AdhesionForm
 from .models import *
-from content.models import GlobalWebsiteParameters
+from aeir_website.content.models import GlobalWebsiteParameters
 
 # Create your views here.
 

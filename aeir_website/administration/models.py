@@ -1,5 +1,5 @@
 from django.db import models
-from adhesion.models import Adhesion
+from aeir_website.adhesion.models import Adhesion
 
 # Create your models here.
 

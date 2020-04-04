@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django.forms.widgets import SelectDateWidget
-from adhesion.models import Adhesion, ArchivedAdhesion
+from aeir_website.adhesion.models import Adhesion, ArchivedAdhesion
 from .models import EventManagement
 from django_filters import FilterSet, NumberFilter, CharFilter
 from crispy_forms.helper import FormHelper

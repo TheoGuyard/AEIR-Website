@@ -1,0 +1,2 @@
+recursive-include aeir_website/templates *
+recursive-include aeir_website/static *
