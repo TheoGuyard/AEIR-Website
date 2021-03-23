@@ -8,9 +8,7 @@ Using the following ressources, the overall functionning of the Website can be f
 - [Django doc](https://docs.djangoproject.com/fr/3.1/intro/)
 
 What you should necessary know about is :
-- Django's `models.py` files
-- Django's `urls.py` files
-- Django's `views.py` files
+- Django's `models.py`, `urls.py` and `views.py` files
 - Django's template system
 - A bit of `HLTM`/`CSS`/`JS`
 - How to set up a website (with or without the DSI)
@@ -18,3 +16,17 @@ What you should necessary know about is :
 - How to update the website carfully (dev/test/prod environments)
 
 ## Website archiecture
+
+### `aeir_website` configuration folder
+
+### `adhesion` app
+
+### `administration` app
+
+### `content` app
+
+### `template` folder
+
+### `media` folder
+
+### `static` folder
