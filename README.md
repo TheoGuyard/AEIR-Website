@@ -8,8 +8,9 @@ Using the following ressources, the overall functionning of the Website can be f
 - [Django doc](https://docs.djangoproject.com/fr/3.1/intro/)
 
 What you should necessary know about is :
-- Django's `models.py`, `urls.py` and `views.py` files
+- Django's app system
 - Django's template system
+- Django's `models.py`, `urls.py` and `views.py` files
 - A bit of `HLTM`/`CSS`/`JS`
 - How to set up a website (with or without the DSI)
 - How to ensure website security
